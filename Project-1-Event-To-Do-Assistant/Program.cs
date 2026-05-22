@@ -21,13 +21,27 @@ while (running)
 
     switch (choice)
     {
-case "1":
+        case "1":
     Console.Clear();
     Console.WriteLine("=== TASK LIST ===");
 
+    // Header
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine(
+        Pad("Title", 20) +
+        Pad("Due Date", 12) +
+        Pad("Project", 15) +
+        Pad("Priority", 10) +
+        Pad("Category", 15) +
+        "Status"
+    );
+    Console.ResetColor();
+
+    Console.WriteLine(new string('-', 80));
+
+    // Rows
     foreach (var task in taskManager.Tasks)
     {
-        // Determine status text
         string status = task.IsCompleted
             ? "Done"
             : (task.IsOverdue ? "OVERDUE" : "Pending");
@@ -40,13 +54,20 @@ case "1":
         else
             Console.ForegroundColor = ConsoleColor.Yellow;
 
-        // Display task
         Console.WriteLine(
-            $"{task.Title} - {task.DueDate:yyyy-MM-dd} - {task.Project} - {task.Priority} - {task.Category} - {status}"
+            Pad(task.Title, 20) +
+            Pad(task.DueDate.ToString("yyyy-MM-dd"), 12) +
+            Pad(task.Project, 15) +
+            Pad(task.Priority, 10) +
+            Pad(task.Category, 15) +
+            status
         );
 
         Console.ResetColor();
     }
+
+    Console.ReadKey();
+    break;
 
     Console.ReadKey();
     break;
@@ -296,6 +317,7 @@ string ReadNonEmpty(string message)
 }
 
 string ReadPriority(string message)
+
 {
     while (true)
     {
@@ -307,4 +329,12 @@ string ReadPriority(string message)
 
         Console.WriteLine("Invalid priority. Use: low, medium, or high.");
     }
+}
+
+static string Pad(string text, int width)
+{
+    if (text.Length >= width)
+        return text.Substring(0, width - 1) + " "; // truncate if too long
+
+    return text.PadRight(width);
 }
