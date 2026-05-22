@@ -60,13 +60,13 @@ class Program
                         Pad("Due Date", 12) +
                         Pad("Project", 15) +
                         Pad("Priority", 10) +
-                        Pad("Category", 15) +
+                        Pad("Tags", 20) +
                         Pad("Description", 25) +
                         "Status"
                     );
                     Console.ResetColor();
 
-                    Console.WriteLine(new string('-', 120));
+                    Console.WriteLine(new string('-', 130));
 
                     foreach (var task in taskManager.Tasks)
                     {
@@ -86,7 +86,7 @@ class Program
                             Pad(task.DueDate.ToString("yyyy-MM-dd"), 12) +
                             Pad(task.Project, 15) +
                             Pad(task.Priority, 10) +
-                            Pad(task.Category, 15) +
+                            Pad(string.Join(", ", task.Tags), 20) +
                             Pad(task.Description, 25) +
                             status
                         );
@@ -103,7 +103,10 @@ class Program
                     DateTime date = ReadDate("Due date (yyyy-mm-dd): ");
                     string project = ReadNonEmpty("Project: ");
                     string priority = ReadPriority("Priority (low/medium/high): ");
-                    string category = ReadCategory("Category: ");
+
+                    string tagsInput = ReadNonEmpty("Tags (comma-separated): ");
+                    List<string> tags = tagsInput.Split(',').Select(t => t.Trim()).ToList();
+
                     string description = ReadDescription("Description (optional): ");
 
                     taskManager.AddTask(new TaskItem
@@ -112,7 +115,7 @@ class Program
                         DueDate = date,
                         Project = project,
                         Priority = priority,
-                        Category = category,
+                        Tags = tags,
                         Description = description,
                         IsCompleted = false
                     });
@@ -131,7 +134,10 @@ class Program
                         taskToEdit.UpdateTitle(ReadNonEmpty("New title: "));
                         taskToEdit.UpdateDate(ReadDate("New date (yyyy-mm-dd): "));
                         taskToEdit.UpdateProject(ReadNonEmpty("New project: "));
-                        taskToEdit.UpdateCategory(ReadCategory("New category: "));
+
+                        string newTagsInput = ReadNonEmpty("New tags (comma-separated): ");
+                        taskToEdit.UpdateTags(newTagsInput.Split(',').Select(t => t.Trim()).ToList());
+
                         taskToEdit.UpdateDescription(ReadDescription("New description: "));
 
                         Console.WriteLine("Task updated!");
@@ -202,7 +208,7 @@ class Program
                     Console.WriteLine("1. Search by Project");
                     Console.WriteLine("2. Filter by Date");
                     Console.WriteLine("3. Filter by Status");
-                    Console.WriteLine("4. Search by Category");
+                    Console.WriteLine("4. Search by Tag");
                     Console.WriteLine("5. Back to Main Menu");
 
                     string sfChoice = ReadNonEmpty("Choose an option: ");
@@ -214,7 +220,7 @@ class Program
 
                         Console.WriteLine("=== RESULTS ===");
                         foreach (var t in results)
-                            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority} - {(t.IsCompleted ? "Done" : "Pending")}");
+                            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
 
                         Console.ReadKey();
                     }
@@ -228,7 +234,7 @@ class Program
 
                         Console.WriteLine("=== RESULTS ===");
                         foreach (var t in results)
-                            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority} - {(t.IsCompleted ? "Done" : "Pending")}");
+                            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
 
                         Console.ReadKey();
                     }
@@ -243,20 +249,22 @@ class Program
 
                         Console.WriteLine("=== RESULTS ===");
                         foreach (var t in results)
-                            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority} - {(t.IsCompleted ? "Done" : "Pending")}");
+                            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
 
                         Console.ReadKey();
                     }
                     else if (sfChoice == "4")
                     {
-                        string cat = ReadCategory("Enter category: ");
+                        string tagSearch = ReadNonEmpty("Enter tag to search: ");
+
                         var results = taskManager.Tasks
-                            .Where(t => t.Category.Contains(cat, StringComparison.OrdinalIgnoreCase))
+                            .Where(t => t.Tags.Any(tag =>
+                                tag.Contains(tagSearch, StringComparison.OrdinalIgnoreCase)))
                             .ToList();
 
                         Console.WriteLine("=== RESULTS ===");
                         foreach (var t in results)
-                            Console.WriteLine($"{t.Title} - {t.Category} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
+                            Console.WriteLine($"{t.Title} - {string.Join(", ", t.Tags)} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
 
                         Console.ReadKey();
                     }
@@ -308,7 +316,7 @@ class Program
                     Console.WriteLine($"Due Date:    {selectedTask.DueDate:yyyy-MM-dd}");
                     Console.WriteLine($"Project:     {selectedTask.Project}");
                     Console.WriteLine($"Priority:    {selectedTask.Priority}");
-                    Console.WriteLine($"Category:    {selectedTask.Category}");
+                    Console.WriteLine($"Tags:        {string.Join(", ", selectedTask.Tags)}");
                     Console.WriteLine($"Completed:   {(selectedTask.IsCompleted ? "Yes" : "No")}");
                     Console.WriteLine($"Overdue:     {(selectedTask.IsOverdue ? "Yes" : "No")}");
 
@@ -327,7 +335,7 @@ class Program
                     Console.ReadKey();
                     Console.Clear();
                     goto case "1";
-                                        
+
                 default:
                     Console.WriteLine("Invalid choice.");
                     Console.ReadKey();
@@ -365,20 +373,6 @@ class Program
                 return date;
 
             Console.WriteLine("Invalid date. Use format yyyy-mm-dd.");
-        }
-    }
-
-    static string ReadCategory(string message)
-    {
-        while (true)
-        {
-            Console.Write(message);
-            string? input = Console.ReadLine();
-
-            if (!string.IsNullOrWhiteSpace(input))
-                return input.Trim();
-
-            Console.WriteLine("Category cannot be empty.");
         }
     }
 
@@ -424,6 +418,4 @@ class Program
         string? input = Console.ReadLine();
         return input?.Trim() ?? "";
     }
-
-    
 }

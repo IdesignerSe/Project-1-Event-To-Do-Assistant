@@ -37,120 +37,117 @@ namespace EventTodoAssistant.Services
         }
 
         public void SortByPriority()
-{
-    Tasks = Tasks
-        .OrderBy(t => t.Priority switch
         {
-            "Low" => 1,
-            "Medium" => 2,
-            "High" => 3,
-            _ => 4
-        })
-        .ToList();
-}
-
+            Tasks = Tasks
+                .OrderBy(t => t.Priority switch
+                {
+                    "Low" => 1,
+                    "Medium" => 2,
+                    "High" => 3,
+                    _ => 4
+                })
+                .ToList();
+        }
 
         public void SaveToJson(string filePath)
         {
             var options = new JsonSerializerOptions
-        {
-            WriteIndented = true
-        };
+            {
+                WriteIndented = true
+            };
 
             string json = JsonSerializer.Serialize(Tasks, options);
             File.WriteAllText(filePath, json);
         }
 
         public void LoadFromJson(string filePath)
-{
-    if (!File.Exists(filePath))
-        return;
+        {
+            if (!File.Exists(filePath))
+                return;
 
-    string json = File.ReadAllText(filePath);
+            string json = File.ReadAllText(filePath);
 
-    var loadedTasks = JsonSerializer.Deserialize<List<TaskItem>>(json);
+            var loadedTasks = JsonSerializer.Deserialize<List<TaskItem>>(json);
 
-    if (loadedTasks != null)
-        Tasks = loadedTasks;
-}
+            if (loadedTasks != null)
+                Tasks = loadedTasks;
+        }
 
         public List<TaskItem> SearchByProject(string project)
-{
-    return Tasks
-        .Where(t => t.Project.Contains(project, StringComparison.OrdinalIgnoreCase))
-        .ToList();
-}
+        {
+            return Tasks
+                .Where(t => t.Project.Contains(project, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
 
         public List<TaskItem> FilterByDate(DateTime date, string mode)
-{
-    return mode.ToLower() switch
-    {
-        "before" => Tasks.Where(t => t.DueDate < date).ToList(),
-        "after"  => Tasks.Where(t => t.DueDate > date).ToList(),
-        "on"     => Tasks.Where(t => t.DueDate.Date == date.Date).ToList(),
-        _        => new List<TaskItem>()
-    };
-}
+        {
+            return mode.ToLower() switch
+            {
+                "before" => Tasks.Where(t => t.DueDate < date).ToList(),
+                "after" => Tasks.Where(t => t.DueDate > date).ToList(),
+                "on" => Tasks.Where(t => t.DueDate.Date == date.Date).ToList(),
+                _ => new List<TaskItem>()
+            };
+        }
 
         public List<TaskItem> FilterByStatus(bool isCompleted)
-{
-    return Tasks
-        .Where(t => t.IsCompleted == isCompleted)
-        .ToList();
-}
+        {
+            return Tasks
+                .Where(t => t.IsCompleted == isCompleted)
+                .ToList();
+        }
 
         public void ExportToCsv(string filePath)
-{
-    var lines = new List<string>();
+        {
+            var lines = new List<string>();
 
-    // Header row
-    lines.Add("Title,DueDate,Project,Priority,Category,IsCompleted,IsOverdue");
+            // Updated header
+            lines.Add("Title,DueDate,Project,Priority,Tags,Description,IsCompleted,IsOverdue");
 
-    // Data rows
-    foreach (var t in Tasks)
-    {
-        string line = $"{t.Title}," +
-                      $"{t.DueDate:yyyy-MM-dd}," +
-                      $"{t.Project}," +
-                      $"{t.Priority}," +
-                      $"{t.Category}," +
-                      $"\"{t.Description}\"," + 
-                      $"{t.IsCompleted}," +
-                      $"{t.IsOverdue}";
+            foreach (var t in Tasks)
+            {
+                string line =
+                    $"{t.Title}," +
+                    $"{t.DueDate:yyyy-MM-dd}," +
+                    $"{t.Project}," +
+                    $"{t.Priority}," +
+                    $"\"{string.Join(";", t.Tags)}\"," +   // tags exported as semicolon-separated
+                    $"\"{t.Description}\"," +
+                    $"{t.IsCompleted}," +
+                    $"{t.IsOverdue}";
 
-        lines.Add(line);
-    }
+                lines.Add(line);
+            }
 
-    // Ensure directory exists
-    string? dir = Path.GetDirectoryName(filePath);
-    if (!string.IsNullOrEmpty(dir))
-        Directory.CreateDirectory(dir);
+            string? dir = Path.GetDirectoryName(filePath);
+            if (!string.IsNullOrEmpty(dir))
+                Directory.CreateDirectory(dir);
 
-    File.WriteAllLines(filePath, lines);
-}
+            File.WriteAllLines(filePath, lines);
+        }
 
         public (int overdue, int dueToday, int dueWeek, int completed, int total) GetSummary()
-{
-    DateTime today = DateTime.Now.Date;
-    DateTime weekEnd = today.AddDays(7);
+        {
+            DateTime today = DateTime.Now.Date;
+            DateTime weekEnd = today.AddDays(7);
 
-    int overdue = Tasks.Count(t => !t.IsCompleted && t.DueDate.Date < today);
-    int dueToday = Tasks.Count(t => !t.IsCompleted && t.DueDate.Date == today);
-    int dueWeek = Tasks.Count(t => !t.IsCompleted && t.DueDate.Date > today && t.DueDate.Date <= weekEnd);
-    int completed = Tasks.Count(t => t.IsCompleted);
-    int total = Tasks.Count;
+            int overdue = Tasks.Count(t => !t.IsCompleted && t.DueDate.Date < today);
+            int dueToday = Tasks.Count(t => !t.IsCompleted && t.DueDate.Date == today);
+            int dueWeek = Tasks.Count(t => !t.IsCompleted && t.DueDate.Date > today && t.DueDate.Date <= weekEnd);
+            int completed = Tasks.Count(t => t.IsCompleted);
+            int total = Tasks.Count;
 
-    return (overdue, dueToday, dueWeek, completed, total);
-}
+            return (overdue, dueToday, dueWeek, completed, total);
+        }
 
         public void SortByCategory()
         {
+            // Now sorts by first tag alphabetically
             Tasks = Tasks
-            .OrderBy(t => t.Category)
-            .ThenBy(t => t.Title)
-            .ToList();
+                .OrderBy(t => t.Tags.Count > 0 ? t.Tags[0] : "")
+                .ThenBy(t => t.Title)
+                .ToList();
         }
-
     }
-
 }

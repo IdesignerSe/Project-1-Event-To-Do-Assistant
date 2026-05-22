@@ -6,7 +6,7 @@ namespace EventTodoAssistant.Models
         public DateTime DueDate { get; set; }
         public string Project { get; set; } = "";
         public string Priority { get; set; } = "Medium";
-        public string Category { get; set; } = "General";
+        public List<string> Tags { get; set; } = new List<string>();
         public string Description { get; set; } = "";
 
         public bool IsCompleted { get; set; }
@@ -22,8 +22,10 @@ namespace EventTodoAssistant.Models
 
         public void UpdatePriority(string newPriority) => Priority = newPriority;
 
-        public void UpdateCategory(string newCategory) => Category = newCategory;
-
+        public void UpdateTags(List<string> newTags)
+        {
+            Tags = newTags;
+        }
         public void UpdateDescription(string newDescription) => Description = newDescription;
 
         public void MarkCompleted() => IsCompleted = true;
