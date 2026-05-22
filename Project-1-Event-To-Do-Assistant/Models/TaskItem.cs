@@ -5,6 +5,9 @@ namespace EventTodoAssistant.Models
         public string Title { get; set; } = "";
         public DateTime DueDate { get; set; }
         public string Project { get; set; } = "";
+
+        public string Priority { get; set; } = "Medium";
+
         public bool IsCompleted { get; set; }
 
         public void MarkCompleted()

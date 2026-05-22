@@ -26,7 +26,7 @@ while (running)
             Console.WriteLine("=== YOUR TASKS ===");
             foreach (var task in taskManager.Tasks)
             {
-                Console.WriteLine($"{task.Title} - {task.DueDate.ToShortDateString()} - {task.Project} - {(task.IsCompleted ? "Done" : "Pending")}");
+Console.WriteLine($"{task.Title} - {task.DueDate.ToShortDateString()} - {task.Project} - {task.Priority} - {(task.IsCompleted ? "Done" : "Pending")}");
             }
             Console.ReadKey();
             break;
@@ -36,12 +36,14 @@ while (running)
             string title = ReadNonEmpty("Task title: ");
             DateTime date = ReadDate("Due date (yyyy-mm-dd): ");
             string project = ReadNonEmpty("Project: ");
+            string priority = ReadPriority("Priority (low/medium/high): ");
 
             taskManager.AddTask(new TaskItem
             {
                 Title = title,
                 DueDate = date,
                 Project = project,
+                Priority = priority,
                 IsCompleted = false
             });
 
@@ -59,6 +61,7 @@ while (running)
                 taskToEdit.UpdateTitle(ReadNonEmpty("New title: "));
                 taskToEdit.UpdateDate(ReadDate("New date (yyyy-mm-dd): "));
                 taskToEdit.UpdateProject(ReadNonEmpty("New project: "));
+                
 
                 Console.WriteLine("Task updated!");
             }
@@ -139,7 +142,7 @@ while (running)
 
         Console.WriteLine("=== RESULTS ===");
         foreach (var t in results)
-            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate.ToShortDateString()}");
+            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate.ToShortDateString()} - {t.Priority} - {(t.IsCompleted ? "Done" : "Pending")}");
 
         Console.ReadKey();
     }
@@ -153,7 +156,7 @@ while (running)
 
         Console.WriteLine("=== RESULTS ===");
         foreach (var t in results)
-            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate.ToShortDateString()}");
+            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate.ToShortDateString()} - {t.Priority} - {(t.IsCompleted ? "Done" : "Pending")}");
 
         Console.ReadKey();
     }
@@ -168,7 +171,7 @@ while (running)
 
         Console.WriteLine("=== RESULTS ===");
         foreach (var t in results)
-            Console.WriteLine($"{t.Title} - {t.Project} - {(t.IsCompleted ? "Done" : "Pending")}");
+            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate.ToShortDateString()} - {t.Priority} - {(t.IsCompleted ? "Done" : "Pending")}");
 
         Console.ReadKey();
     }
@@ -220,5 +223,19 @@ string ReadNonEmpty(string message)
             return input;
 
         Console.WriteLine("Input cannot be empty.");
+    }
+}
+
+string ReadPriority(string message)
+{
+    while (true)
+    {
+        Console.Write(message);
+        string? input = Console.ReadLine()?.ToLower();
+
+        if (input == "low" || input == "medium" || input == "high")
+            return char.ToUpper(input[0]) + input.Substring(1);
+
+        Console.WriteLine("Invalid priority. Use: low, medium, or high.");
     }
 }
