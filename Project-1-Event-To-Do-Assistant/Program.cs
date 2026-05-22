@@ -223,6 +223,15 @@ case "1":
     Console.ReadKey();
     break;
 
+        case "12":
+           string exportPath = "Exports/tasks.csv";
+           taskManager.ExportToCsv(exportPath);
+           Console.WriteLine($"Tasks exported to {exportPath}");
+           Console.ReadKey();
+           break;
+
+
+
         default:
             Console.WriteLine("Invalid choice.");
             Console.ReadKey();

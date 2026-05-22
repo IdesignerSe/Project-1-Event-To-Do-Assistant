@@ -3,12 +3,27 @@
     "Title": "Eat heavly today",
     "DueDate": "2026-05-22T00:00:00",
     "Project": "Prepare 5 kg of Food",
-    "IsCompleted": false
+    "Category": "General",
+    "Priority": "Medium",
+    "IsCompleted": false,
+    "IsOverdue": false
   },
   {
-    "Title": "Sleep all day",
+    "Title": "Being Spiderman for a day",
     "DueDate": "2026-05-22T00:00:00",
-    "Project": "Don't make the bed",
-    "IsCompleted": false
+    "Project": "Quantic Worlds",
+    "Category": "Comics",
+    "Priority": "Medium",
+    "IsCompleted": true,
+    "IsOverdue": false
+  },
+  {
+    "Title": "Become Superman ",
+    "DueDate": "2026-05-22T00:00:00",
+    "Project": "Transform Krytonite into magnesium",
+    "Category": "Paranormal",
+    "Priority": "Low",
+    "IsCompleted": false,
+    "IsOverdue": false
   }
 ]

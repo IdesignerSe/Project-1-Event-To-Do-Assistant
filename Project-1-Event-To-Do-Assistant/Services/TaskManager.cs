@@ -99,5 +99,36 @@ namespace EventTodoAssistant.Services
         .ToList();
 }
 
+        public void ExportToCsv(string filePath)
+{
+    var lines = new List<string>();
+
+    // Header row
+    lines.Add("Title,DueDate,Project,Priority,Category,IsCompleted,IsOverdue");
+
+    // Data rows
+    foreach (var t in Tasks)
+    {
+        string line = $"{t.Title}," +
+                      $"{t.DueDate:yyyy-MM-dd}," +
+                      $"{t.Project}," +
+                      $"{t.Priority}," +
+                      $"{t.Category}," +
+                      $"{t.IsCompleted}," +
+                      $"{t.IsOverdue}";
+
+        lines.Add(line);
     }
+
+    // Ensure directory exists
+    string? dir = Path.GetDirectoryName(filePath);
+    if (!Directory.Exists(dir))
+        Directory.CreateDirectory(dir);
+
+    File.WriteAllLines(filePath, lines);
+}
+
+
+    }
+
 }
