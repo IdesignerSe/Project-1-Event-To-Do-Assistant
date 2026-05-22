@@ -1,4 +1,5 @@
 using EventTodoAssistant.Models;
+using System.Text.Json;
 
 namespace EventTodoAssistant.Services
 {
@@ -36,37 +37,29 @@ namespace EventTodoAssistant.Services
         }
 
 
-public void SaveToFile(string filePath)
+        public void SaveToJson(string filePath)
 {
-    var lines = Tasks.Select(t =>
-        $"{t.Title}|{t.DueDate:yyyy-MM-dd}|{t.Project}|{t.IsCompleted}");
+    var options = new JsonSerializerOptions
+    {
+        WriteIndented = true
+    };
 
-    File.WriteAllLines(filePath, lines);
+    string json = JsonSerializer.Serialize(Tasks, options);
+    File.WriteAllText(filePath, json);
 }
 
-public void LoadFromFile(string filePath)
+        public void LoadFromJson(string filePath)
 {
     if (!File.Exists(filePath))
         return;
 
-    var lines = File.ReadAllLines(filePath);
+    string json = File.ReadAllText(filePath);
 
-    foreach (var line in lines)
-    {
-        var parts = line.Split('|');
-        if (parts.Length == 4)
-        {
-            Tasks.Add(new TaskItem
-            {
-                Title = parts[0],
-                DueDate = DateTime.Parse(parts[1]),
-                Project = parts[2],
-                IsCompleted = bool.Parse(parts[3])
-            });
-        }
-    }
+    var loadedTasks = JsonSerializer.Deserialize<List<TaskItem>>(json);
+
+    if (loadedTasks != null)
+        Tasks = loadedTasks;
 }
-
         
     }
 }

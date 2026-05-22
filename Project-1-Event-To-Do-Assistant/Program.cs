@@ -7,8 +7,8 @@ var aiService = new AISuggestionService();
 var displayService = new DisplayService();
 var menu = new MenuUI();
 
-string filePath = "tasks.txt";
-taskManager.LoadFromFile(filePath);
+string filePath = "tasks.json";
+taskManager.LoadFromJson(filePath);
 
 bool running = true;
 
@@ -108,7 +108,7 @@ while (running)
             break;
 
         case "8":
-            taskManager.SaveToFile(filePath);
+            taskManager.SaveToJson(filePath);
             running = false;
             break;
 
