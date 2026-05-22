@@ -148,11 +148,11 @@ Console.WriteLine($"{task.Title} - {task.DueDate.ToShortDateString()} - {task.Pr
     }
     else if (sfChoice == "2")
     {
-        DateTime date = ReadDate("Enter date (yyyy-mm-dd): ");
+        DateTime filterDate = ReadDate("Enter date (yyyy-mm-dd): ");
         Console.Write("Filter (before/after/on): ");
         string mode = Console.ReadLine() ?? "on";
 
-        var results = taskManager.FilterByDate(date, mode);
+        var results = taskManager.FilterByDate(filterDate, mode);
 
         Console.WriteLine("=== RESULTS ===");
         foreach (var t in results)
