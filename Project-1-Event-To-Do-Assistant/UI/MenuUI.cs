@@ -5,6 +5,7 @@ namespace EventTodoAssistant.UI
         public void ShowMainMenu()
         {
             Console.WriteLine("==== EVENT TODO ASSISTANT ====");
+            Console.WriteLine("0. Dashboard Summary");
             Console.WriteLine("1. Show Tasks");
             Console.WriteLine("2. Add Task");
             Console.WriteLine("3. Edit Task");

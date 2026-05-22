@@ -128,6 +128,19 @@ namespace EventTodoAssistant.Services
     File.WriteAllLines(filePath, lines);
 }
 
+        public (int overdue, int dueToday, int dueWeek, int completed, int total) GetSummary()
+{
+    DateTime today = DateTime.Now.Date;
+    DateTime weekEnd = today.AddDays(7);
+
+    int overdue = Tasks.Count(t => !t.IsCompleted && t.DueDate.Date < today);
+    int dueToday = Tasks.Count(t => !t.IsCompleted && t.DueDate.Date == today);
+    int dueWeek = Tasks.Count(t => !t.IsCompleted && t.DueDate.Date > today && t.DueDate.Date <= weekEnd);
+    int completed = Tasks.Count(t => t.IsCompleted);
+    int total = Tasks.Count;
+
+    return (overdue, dueToday, dueWeek, completed, total);
+}
 
     }
 

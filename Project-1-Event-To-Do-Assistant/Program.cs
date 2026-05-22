@@ -21,6 +21,31 @@ while (running)
 
     switch (choice)
     {
+        case "0":
+    Console.Clear();
+    Console.WriteLine("=== DASHBOARD SUMMARY ===");
+
+    var summary = taskManager.GetSummary();
+
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine($"Overdue Tasks: {summary.overdue}");
+
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine($"Due Today: {summary.dueToday}");
+
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine($"Due This Week: {summary.dueWeek}");
+
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine($"Completed: {summary.completed}");
+
+    Console.ResetColor();
+    Console.WriteLine($"Total Tasks: {summary.total}");
+
+    Console.WriteLine("\nPress any key to return...");
+    Console.ReadKey();
+    break;
+
         case "1":
     Console.Clear();
     Console.WriteLine("=== TASK LIST ===");
