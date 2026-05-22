@@ -114,6 +114,7 @@ namespace EventTodoAssistant.Services
                       $"{t.Project}," +
                       $"{t.Priority}," +
                       $"{t.Category}," +
+                      $"\"{t.Description}\"," + 
                       $"{t.IsCompleted}," +
                       $"{t.IsOverdue}";
 
@@ -122,7 +123,7 @@ namespace EventTodoAssistant.Services
 
     // Ensure directory exists
     string? dir = Path.GetDirectoryName(filePath);
-    if (!Directory.Exists(dir))
+    if (!string.IsNullOrEmpty(dir))
         Directory.CreateDirectory(dir);
 
     File.WriteAllLines(filePath, lines);

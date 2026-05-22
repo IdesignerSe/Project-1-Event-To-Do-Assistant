@@ -18,6 +18,7 @@ namespace EventTodoAssistant.UI
             Console.WriteLine("10. Search & Filter Tasks");
             Console.WriteLine("11. Sort by Priority");
             Console.WriteLine("12. Export to CSV");
+            Console.WriteLine("13. View Task Details");
             Console.WriteLine("==============================");
         }
     }
