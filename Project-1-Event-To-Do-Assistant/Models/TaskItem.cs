@@ -1,5 +1,6 @@
 namespace EventTodoAssistant.Models
 {
+    
     public class TaskItem
     {
         public string Title { get; set; } = "";
@@ -9,6 +10,7 @@ namespace EventTodoAssistant.Models
         public string Priority { get; set; } = "Medium";
 
         public bool IsCompleted { get; set; }
+        public bool IsOverdue => !IsCompleted && DueDate.Date < DateTime.Now.Date;
 
         public void MarkCompleted()
         {
