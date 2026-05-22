@@ -7,6 +7,9 @@ var aiService = new AISuggestionService();
 var displayService = new DisplayService();
 var menu = new MenuUI();
 
+string filePath = "tasks.txt";
+taskManager.LoadFromFile(filePath);
+
 bool running = true;
 
 while (running)
@@ -14,8 +17,7 @@ while (running)
     Console.Clear();
     menu.ShowMainMenu();
 
-    Console.Write("Choose/Write a option number: or press any key to Menu");
-    string? choice = Console.ReadLine();
+    string choice = ReadNonEmpty("Choose an option number: ");
 
     switch (choice)
     {
@@ -31,14 +33,9 @@ while (running)
 
         case "2":
             Console.Clear();
-            Console.Write("Task title: ");
-            string title = Console.ReadLine() ?? "";
-
-            Console.Write("Due date (yyyy-mm-dd): ");
-            DateTime date = DateTime.Parse(Console.ReadLine() ?? "");
-
-            Console.Write("Project: ");
-            string project = Console.ReadLine() ?? "";
+            string title = ReadNonEmpty("Task title: ");
+            DateTime date = ReadDate("Due date (yyyy-mm-dd): ");
+            string project = ReadNonEmpty("Project: ");
 
             taskManager.AddTask(new TaskItem
             {
@@ -49,27 +46,19 @@ while (running)
             });
 
             Console.WriteLine("Task added!");
-            Console.Write("Choose/Write a option number: or press any key to Menu");
-
             Console.ReadKey();
             break;
 
         case "3":
             Console.Clear();
-            Console.Write("Enter task index to edit: ");
-            int editIndex = int.Parse(Console.ReadLine() ?? "0");
+            int editIndex = ReadInt("Enter task index to edit: ");
 
             var taskToEdit = taskManager.GetTask(editIndex);
             if (taskToEdit != null)
             {
-                Console.Write("New title: ");
-                taskToEdit.UpdateTitle(Console.ReadLine() ?? "");
-
-                Console.Write("New date (yyyy-mm-dd): ");
-                taskToEdit.UpdateDate(DateTime.Parse(Console.ReadLine() ?? ""));
-
-                Console.Write("New project: ");
-                taskToEdit.UpdateProject(Console.ReadLine() ?? "");
+                taskToEdit.UpdateTitle(ReadNonEmpty("New title: "));
+                taskToEdit.UpdateDate(ReadDate("New date (yyyy-mm-dd): "));
+                taskToEdit.UpdateProject(ReadNonEmpty("New project: "));
 
                 Console.WriteLine("Task updated!");
             }
@@ -82,8 +71,7 @@ while (running)
 
         case "4":
             Console.Clear();
-            Console.Write("Enter task index to mark as done: ");
-            int doneIndex = int.Parse(Console.ReadLine() ?? "0");
+            int doneIndex = ReadInt("Enter task index to mark as done: ");
 
             var taskToMark = taskManager.GetTask(doneIndex);
             if (taskToMark != null)
@@ -100,8 +88,7 @@ while (running)
 
         case "5":
             Console.Clear();
-            Console.Write("Enter task index to remove: ");
-            int removeIndex = int.Parse(Console.ReadLine() ?? "0");
+            int removeIndex = ReadInt("Enter task index to remove: ");
 
             taskManager.RemoveTask(removeIndex);
             Console.WriteLine("Task removed!");
@@ -121,13 +108,13 @@ while (running)
             break;
 
         case "8":
+            taskManager.SaveToFile(filePath);
             running = false;
             break;
 
         case "9":
             Console.Clear();
-            Console.Write("Enter event name: ");
-            string eventName = Console.ReadLine() ?? "";
+            string eventName = ReadNonEmpty("Enter event name: ");
 
             var suggestions = aiService.GetMockSuggestions(eventName);
             displayService.ShowSplitScreen(taskManager.Tasks, suggestions);
@@ -139,5 +126,47 @@ while (running)
             Console.WriteLine("Invalid choice.");
             Console.ReadKey();
             break;
+    }
+}
+
+int ReadInt(string message)
+{
+    while (true)
+    {
+        Console.Write(message);
+        string? input = Console.ReadLine();
+
+        if (int.TryParse(input, out int number))
+            return number;
+
+        Console.WriteLine("Invalid number. Try again.");
+    }
+}
+
+DateTime ReadDate(string message)
+{
+    while (true)
+    {
+        Console.Write(message);
+        string? input = Console.ReadLine();
+
+        if (DateTime.TryParse(input, out DateTime date))
+            return date;
+
+        Console.WriteLine("Invalid date. Use format yyyy-mm-dd.");
+    }
+}
+
+string ReadNonEmpty(string message)
+{
+    while (true)
+    {
+        Console.Write(message);
+        string? input = Console.ReadLine();
+
+        if (!string.IsNullOrWhiteSpace(input))
+            return input;
+
+        Console.WriteLine("Input cannot be empty.");
     }
 }
