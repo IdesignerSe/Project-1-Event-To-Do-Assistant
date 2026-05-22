@@ -143,6 +143,14 @@ namespace EventTodoAssistant.Services
     return (overdue, dueToday, dueWeek, completed, total);
 }
 
+        public void SortByCategory()
+        {
+            Tasks = Tasks
+            .OrderBy(t => t.Category)
+            .ThenBy(t => t.Title)
+            .ToList();
+        }
+
     }
 
 }

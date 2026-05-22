@@ -321,6 +321,13 @@ class Program
                     Console.ReadKey();
                     break;
 
+                case "14":
+                    taskManager.SortByCategory();
+                    Console.WriteLine("Tasks sorted by category!");
+                    Console.ReadKey();
+                    Console.Clear();
+                    goto case "1";
+                                        
                 default:
                     Console.WriteLine("Invalid choice.");
                     Console.ReadKey();
