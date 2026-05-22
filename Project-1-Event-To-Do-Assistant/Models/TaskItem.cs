@@ -8,6 +8,7 @@ namespace EventTodoAssistant.Models
         public string Project { get; set; } = "";
 
         public string Priority { get; set; } = "Medium";
+        
 
         public bool IsCompleted { get; set; }
         public bool IsOverdue => !IsCompleted && DueDate.Date < DateTime.Now.Date;

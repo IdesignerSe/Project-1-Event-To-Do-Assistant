@@ -177,6 +177,12 @@ Console.WriteLine($"{task.Title} - {task.DueDate.ToShortDateString()} - {task.Pr
     }
     break;
 
+        case "11":
+    taskManager.SortByPriority();
+    Console.WriteLine("Tasks sorted by priority!");
+    Console.ReadKey();
+    break;
+
         default:
             Console.WriteLine("Invalid choice.");
             Console.ReadKey();

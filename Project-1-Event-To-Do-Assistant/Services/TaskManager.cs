@@ -36,17 +36,30 @@ namespace EventTodoAssistant.Services
             Tasks = Tasks.OrderBy(t => t.Project).ToList();
         }
 
+        public void SortByPriority()
+{
+    Tasks = Tasks
+        .OrderBy(t => t.Priority switch
+        {
+            "Low" => 1,
+            "Medium" => 2,
+            "High" => 3,
+            _ => 4
+        })
+        .ToList();
+}
+
 
         public void SaveToJson(string filePath)
-{
-    var options = new JsonSerializerOptions
-    {
-        WriteIndented = true
-    };
+        {
+            var options = new JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
 
-    string json = JsonSerializer.Serialize(Tasks, options);
-    File.WriteAllText(filePath, json);
-}
+            string json = JsonSerializer.Serialize(Tasks, options);
+            File.WriteAllText(filePath, json);
+        }
 
         public void LoadFromJson(string filePath)
 {
