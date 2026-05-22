@@ -121,6 +121,58 @@ while (running)
 
             Console.ReadKey();
             break;
+        
+        case "10":
+    Console.Clear();
+    Console.WriteLine("=== SEARCH & FILTER ===");
+    Console.WriteLine("1. Search by Project");
+    Console.WriteLine("2. Filter by Date");
+    Console.WriteLine("3. Filter by Status");
+    Console.WriteLine("4. Back to Menu");
+
+    string sfChoice = ReadNonEmpty("Choose an option: ");
+
+    if (sfChoice == "1")
+    {
+        string projectName = ReadNonEmpty("Enter project name: ");
+        var results = taskManager.SearchByProject(projectName);
+
+        Console.WriteLine("=== RESULTS ===");
+        foreach (var t in results)
+            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate.ToShortDateString()}");
+
+        Console.ReadKey();
+    }
+    else if (sfChoice == "2")
+    {
+        DateTime date = ReadDate("Enter date (yyyy-mm-dd): ");
+        Console.Write("Filter (before/after/on): ");
+        string mode = Console.ReadLine() ?? "on";
+
+        var results = taskManager.FilterByDate(date, mode);
+
+        Console.WriteLine("=== RESULTS ===");
+        foreach (var t in results)
+            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate.ToShortDateString()}");
+
+        Console.ReadKey();
+    }
+    else if (sfChoice == "3")
+    {
+        Console.Write("Show completed? (yes/no): ");
+        string ans = Console.ReadLine()?.ToLower() ?? "no";
+
+        bool completed = ans == "yes";
+
+        var results = taskManager.FilterByStatus(completed);
+
+        Console.WriteLine("=== RESULTS ===");
+        foreach (var t in results)
+            Console.WriteLine($"{t.Title} - {t.Project} - {(t.IsCompleted ? "Done" : "Pending")}");
+
+        Console.ReadKey();
+    }
+    break;
 
         default:
             Console.WriteLine("Invalid choice.");

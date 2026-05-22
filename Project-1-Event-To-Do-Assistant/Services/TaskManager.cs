@@ -60,6 +60,31 @@ namespace EventTodoAssistant.Services
     if (loadedTasks != null)
         Tasks = loadedTasks;
 }
-        
+
+        public List<TaskItem> SearchByProject(string project)
+{
+    return Tasks
+        .Where(t => t.Project.Contains(project, StringComparison.OrdinalIgnoreCase))
+        .ToList();
+}
+
+        public List<TaskItem> FilterByDate(DateTime date, string mode)
+{
+    return mode.ToLower() switch
+    {
+        "before" => Tasks.Where(t => t.DueDate < date).ToList(),
+        "after"  => Tasks.Where(t => t.DueDate > date).ToList(),
+        "on"     => Tasks.Where(t => t.DueDate.Date == date.Date).ToList(),
+        _        => new List<TaskItem>()
+    };
+}
+
+        public List<TaskItem> FilterByStatus(bool isCompleted)
+{
+    return Tasks
+        .Where(t => t.IsCompleted == isCompleted)
+        .ToList();
+}
+
     }
 }

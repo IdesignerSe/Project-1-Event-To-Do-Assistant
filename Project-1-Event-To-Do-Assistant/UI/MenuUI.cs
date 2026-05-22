@@ -14,7 +14,7 @@ namespace EventTodoAssistant.UI
             Console.WriteLine("7. Sort by Project");
             Console.WriteLine("8. Save & Quit");
             Console.WriteLine("9. AI Event Suggestions");
-            Console.WriteLine("10. Import AI Suggestion");
+            Console.WriteLine("10. Search & Filter Tasks");
             Console.WriteLine("==============================");
         }
     }
