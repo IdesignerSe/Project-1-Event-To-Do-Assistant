@@ -363,6 +363,37 @@ class Program
     Console.ReadKey();
     break;
 
+                case "16":
+    Console.Clear();
+    Console.WriteLine("=== SMART EVENT ASSISTANT ===\n");
+
+    string evName = ReadNonEmpty("Event name: ");
+    DateTime evDate = ReadDate("Event date (yyyy-mm-dd): ");
+
+    var generated = aiService.GenerateEventTasks(evName, evDate);
+
+    Console.WriteLine("\nGenerated tasks:\n");
+    foreach (var t in generated)
+        Console.WriteLine($"- {t.Title} (Due: {t.DueDate:yyyy-MM-dd})");
+
+    Console.Write("\nAdd these tasks to your list? (yes/no): ");
+    string ans2 = Console.ReadLine()?.ToLower() ?? "no";
+
+    if (ans2 == "yes")
+    {
+        foreach (var t in generated)
+            taskManager.AddTask(t);
+
+        Console.WriteLine("Tasks added!");
+    }
+    else
+    {
+        Console.WriteLine("Cancelled.");
+    }
+
+    Console.ReadKey();
+    break;
+                
             }
         }
     }
