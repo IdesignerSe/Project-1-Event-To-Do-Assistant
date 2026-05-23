@@ -2,6 +2,8 @@ namespace EventTodoAssistant.Models
 {
     public class TaskItem
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
+
         public string Title { get; set; } = "";
         public DateTime DueDate { get; set; }
         public string Project { get; set; } = "";
@@ -22,10 +24,8 @@ namespace EventTodoAssistant.Models
 
         public void UpdatePriority(string newPriority) => Priority = newPriority;
 
-        public void UpdateTags(List<string> newTags)
-        {
-            Tags = newTags;
-        }
+        public void UpdateTags(List<string> newTags) => Tags = newTags;
+
         public void UpdateDescription(string newDescription) => Description = newDescription;
 
         public void MarkCompleted() => IsCompleted = true;

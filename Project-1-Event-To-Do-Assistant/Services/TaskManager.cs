@@ -171,5 +171,13 @@ namespace EventTodoAssistant.Services
         .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 }
 
+        private readonly string historyFile = "task_history.txt";
+
+        private void LogHistory(string message)
+        {
+            File.AppendAllText(historyFile, $"[{DateTime.Now:yyyy-MM-dd HH:mm}] {message}\n");
+        }
+
+
     }
 }

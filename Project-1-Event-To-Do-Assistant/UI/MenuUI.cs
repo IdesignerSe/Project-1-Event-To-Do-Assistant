@@ -5,6 +5,8 @@ namespace EventTodoAssistant.UI
         public void ShowMainMenu()
         {
             Console.WriteLine("==== EVENT TODO ASSISTANT ====");
+            Console.WriteLine("========= MAIN MENU ===========");
+
             Console.WriteLine("0. Dashboard Summary");
             Console.WriteLine("1. Show Tasks");
             Console.WriteLine("2. Add Task");
@@ -21,6 +23,8 @@ namespace EventTodoAssistant.UI
             Console.WriteLine("13. View Task Details");
             Console.WriteLine("14. Sort by Category");
             Console.WriteLine("15. View Tag Statistics");
+            Console.WriteLine("16. AI Event Suggestions with Context");
+            Console.WriteLine("17. View Task History");
             Console.WriteLine("==============================");
         }
     }

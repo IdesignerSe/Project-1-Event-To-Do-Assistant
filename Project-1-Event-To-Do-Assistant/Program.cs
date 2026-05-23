@@ -46,7 +46,7 @@ class Program
                     Console.ResetColor();
                     Console.WriteLine($"Total Tasks: {summary.total}");
 
-                    Console.WriteLine("\nPress any key to return...");
+                    Console.WriteLine("\nPress any key to return to MAIN MENU.");
                     Console.ReadKey();
                     break;
 
@@ -54,8 +54,9 @@ class Program
                     Console.Clear();
                     Console.WriteLine("=== TASK LIST ===");
 
-                    Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.WriteLine(
+                        Pad("Idx", 5) +
+                        Pad("ID", 4) +
                         Pad("Title", 20) +
                         Pad("Due Date", 12) +
                         Pad("Project", 15) +
@@ -68,20 +69,18 @@ class Program
 
                     Console.WriteLine(new string('-', 130));
 
-                    foreach (var task in taskManager.Tasks)
+                    for (int i = 0; i < taskManager.Tasks.Count; i++)
                     {
-                        string status = task.IsCompleted
-                            ? "Done"
-                            : (task.IsOverdue ? "OVERDUE" : "Pending");
+                        var task = taskManager.Tasks[i];
+                        string shortId = task.Id.ToString().Substring(0, 3);
 
-                        if (task.IsCompleted)
-                            Console.ForegroundColor = ConsoleColor.Green;
-                        else if (task.IsOverdue)
-                            Console.ForegroundColor = ConsoleColor.Red;
-                        else
-                            Console.ForegroundColor = ConsoleColor.Yellow;
+                        string status = task.IsCompleted ? "Done" :
+                                        task.IsOverdue ? "OVERDUE" :
+                                        "Pending";
 
                         Console.WriteLine(
+                            Pad((i + 1).ToString(), 5) +
+                            Pad(task.Id.ToString(), 4) +
                             Pad(task.Title, 20) +
                             Pad(task.DueDate.ToString("yyyy-MM-dd"), 12) +
                             Pad(task.Project, 15) +
@@ -393,14 +392,40 @@ class Program
 
     Console.ReadKey();
     break;
-                
+
+                case "17":
+    Console.Clear();
+    Console.WriteLine("=== TASK HISTORY ===\n");
+
+    string historyPath = "task_history.txt";
+
+    if (!File.Exists(historyPath))
+    {
+        Console.WriteLine("No history available yet.");
+    }
+    else
+    {
+        var lines = File.ReadAllLines(historyPath);
+
+        if (lines.Length == 0)
+        {
+            Console.WriteLine("History file is empty.");
+        }
+        else
+        {
+            foreach (var line in lines)
+                Console.WriteLine(line);
+        }
+    }
+
+    Console.WriteLine("\nPress any key to return to Main Menu...");
+    Console.ReadKey();
+    break;
+       
             }
         }
     }
 
-    // ============================
-    // Helper Methods (ALL STATIC)
-    // ============================
 
     static int ReadInt(string message)
     {
