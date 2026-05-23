@@ -149,5 +149,27 @@ namespace EventTodoAssistant.Services
                 .ThenBy(t => t.Title)
                 .ToList();
         }
+
+        public Dictionary<string, int> GetTagStatistics()
+{
+    var stats = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+    foreach (var task in Tasks)
+    {
+        foreach (var tag in task.Tags)
+        {
+            if (stats.ContainsKey(tag))
+                stats[tag]++;
+            else
+                stats[tag] = 1;
+        }
+    }
+
+    return stats
+        .OrderByDescending(kvp => kvp.Value)
+        .ThenBy(kvp => kvp.Key)
+        .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+}
+
     }
 }

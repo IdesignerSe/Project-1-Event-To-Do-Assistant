@@ -340,6 +340,29 @@ class Program
                     Console.WriteLine("Invalid choice.");
                     Console.ReadKey();
                     break;
+
+                case "15":
+    Console.Clear();
+    Console.WriteLine("=== TAG STATISTICS ===\n");
+
+    var stats = taskManager.GetTagStatistics();
+
+    if (stats.Count == 0)
+    {
+        Console.WriteLine("No tags found.");
+        Console.ReadKey();
+        break;
+    }
+
+    foreach (var kvp in stats)
+    {
+        Console.WriteLine($"{kvp.Key}: {kvp.Value} task(s)");
+    }
+
+    Console.WriteLine("\nPress any key to return...");
+    Console.ReadKey();
+    break;
+
             }
         }
     }

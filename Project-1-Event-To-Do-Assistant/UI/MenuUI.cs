@@ -20,6 +20,7 @@ namespace EventTodoAssistant.UI
             Console.WriteLine("12. Export to CSV");
             Console.WriteLine("13. View Task Details");
             Console.WriteLine("14. Sort by Category");
+            Console.WriteLine("15. View Tag Statistics");
             Console.WriteLine("==============================");
         }
     }
