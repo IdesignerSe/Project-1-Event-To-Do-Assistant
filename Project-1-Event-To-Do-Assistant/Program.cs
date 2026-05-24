@@ -11,6 +11,13 @@ class Program
         var displayService = new DisplayService();
         var menu = new MenuUI();
 
+        // AI service (mock for now — safe, no internet needed)
+        //IAIService aiService = new AISuggestionServiceAdapter(new AISuggestionService());
+
+        // Later you can switch to real AI:
+        // aiService = new CloudAIService("YOUR_API_KEY");
+        // aiService = new LocalAIService();
+
         string filePath = "tasks.json";
         taskManager.LoadFromJson(filePath);
 
