@@ -7,12 +7,12 @@ class Program
     static void Main(string[] args)
     {
         var taskManager = new TaskManager();
-        var aiService = new AISuggestionService();
+        //var aiService = new AISuggestionService();
         var displayService = new DisplayService();
         var menu = new MenuUI();
 
         // AI service (mock for now — safe, no internet needed)
-        //IAIService aiService = new AISuggestionServiceAdapter(new AISuggestionService());
+        IAIService aiService = new AISuggestionServiceAdapter(new AISuggestionService());
 
         // Later you can switch to real AI:
         // aiService = new CloudAIService("YOUR_API_KEY");
@@ -209,7 +209,7 @@ class Program
     Console.WriteLine("\nGenerating suggestions...\n");
 
     // Get suggestions from AI service
-    var suggestions = aiService.GetMockSuggestions(eventName);
+    var suggestions = aiService.GenerateSuggestionsAsync(eventName).Result;
 
     // Store suggestions temporarily in TaskManager
     taskManager.AISuggestions.Clear();
@@ -471,7 +471,7 @@ case "10":
     string evName = ReadNonEmpty("Event name: ");
     DateTime evDate = ReadDate("Event date (yyyy-mm-dd): ");
 
-    var generated = aiService.GenerateEventTasks(evName, evDate);
+    var generated = aiService.GenerateEventTasksAsync(evName, evDate).Result;
 
     Console.WriteLine("\nGenerated tasks:\n");
     foreach (var t in generated)
