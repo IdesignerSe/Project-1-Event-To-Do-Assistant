@@ -6,6 +6,8 @@ namespace EventTodoAssistant.Services
     public class TaskManager
     {
         public List<TaskItem> Tasks { get; private set; } = new List<TaskItem>();
+        public List<AISuggestionItem> AISuggestions { get; set; } = new List<AISuggestionItem>();
+
 
         public void AddTask(TaskItem task)
         {

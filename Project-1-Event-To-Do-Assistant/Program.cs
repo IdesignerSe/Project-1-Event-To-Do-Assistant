@@ -191,15 +191,64 @@ class Program
                     running = false;
                     break;
 
-                case "9":
-                    Console.Clear();
-                    string eventName = ReadNonEmpty("Enter event name: ");
+                Console.WriteLine("\nOptions:");
+Console.WriteLine("1. Save a suggestion");
+Console.WriteLine("2. Delete a suggestion");
+Console.WriteLine("3. Save ALL suggestions");
+Console.WriteLine("4. Return to Main Menu");
 
-                    var suggestions = aiService.GetMockSuggestions(eventName);
-                    displayService.ShowSplitScreen(taskManager.Tasks, suggestions);
+Console.Write("\nChoose an option: ");
+string aiChoice = Console.ReadLine();   // ⭐ FIXED NAME
 
-                    Console.ReadKey();
-                    break;
+if (aiChoice == "1")
+{
+    Console.Write("Enter suggestion index to save: ");
+    int idx = int.Parse(Console.ReadLine());
+
+    var sug = taskManager.AISuggestions[idx];
+
+    taskManager.AddTask(new TaskItem
+    {
+        Title = sug.Suggestion,
+        Project = sug.EventName,
+        Priority = "Medium",
+        Tags = new List<string> { "AI", "Suggestion" },
+        Description = $"AI-generated suggestion for event: {sug.EventName}",
+        DueDate = DateTime.Now.AddDays(7)
+    });
+
+    sug.IsSaved = true;
+
+    Console.WriteLine("\nSuggestion saved as a task!");
+}
+else if (aiChoice == "2")
+{
+    Console.Write("Enter suggestion index to delete: ");
+    int idx = int.Parse(Console.ReadLine());
+
+    taskManager.AISuggestions.RemoveAt(idx);
+
+    Console.WriteLine("\nSuggestion removed.");
+}
+else if (aiChoice == "3")
+{
+    foreach (var sug in taskManager.AISuggestions)
+    {
+        taskManager.AddTask(new TaskItem
+        {
+            Title = sug.Suggestion,
+            Project = sug.EventName,
+            Priority = "Medium",
+            Tags = new List<string> { "AI", "Suggestion" },
+            Description = $"AI-generated suggestion for event: {sug.EventName}",
+            DueDate = DateTime.Now.AddDays(7)
+        });
+
+        sug.IsSaved = true;
+    }
+
+    Console.WriteLine("\nAll suggestions saved!");
+}
 
                 case "10":
                     Console.Clear();
@@ -210,9 +259,9 @@ class Program
                     Console.WriteLine("4. Search by Tag");
                     Console.WriteLine("5. Back to Main Menu");
 
-                    string sfChoice = ReadNonEmpty("Choose an option: ");
+                    string sfaiChoice = ReadNonEmpty("Choose an option: ");
 
-                    if (sfChoice == "1")
+                    if (sfaiChoice == "1")
                     {
                         string projectName = ReadNonEmpty("Enter project name: ");
                         var results = taskManager.SearchByProject(projectName);
@@ -237,7 +286,7 @@ class Program
 
                         Console.ReadKey();
                     }
-                    else if (sfChoice == "3")
+                    else if (sfaiChoice == "3")
                     {
                         Console.Write("Show completed? (yes/no): ");
                         string ans = Console.ReadLine()?.ToLower() ?? "no";
@@ -252,7 +301,7 @@ class Program
 
                         Console.ReadKey();
                     }
-                    else if (sfChoice == "4")
+                    else if (sfaiChoice == "4")
                     {
                         string tagSearch = ReadNonEmpty("Enter tag to search: ");
 
