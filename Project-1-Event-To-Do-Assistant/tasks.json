@@ -1,5 +1,6 @@
 [
   {
+    "Id": "c69f5883-2c9b-4e1f-9f81-ab1366f0852f",
     "Title": "Become Superman ",
     "DueDate": "2026-05-22T00:00:00",
     "Project": "Transform Krytonite into magnesium",
@@ -10,6 +11,7 @@
     "IsOverdue": true
   },
   {
+    "Id": "2a194c67-c0ee-4f41-879a-a75e75a634a3",
     "Title": "Being Spiderman for a day",
     "DueDate": "2026-05-22T00:00:00",
     "Project": "Quantic Worlds",
@@ -20,6 +22,7 @@
     "IsOverdue": false
   },
   {
+    "Id": "a1c4650d-c55d-4143-ba18-6b035b05aa38",
     "Title": "Wine testing: Barolo",
     "DueDate": "2026-05-27T00:00:00",
     "Project": "Wine Testing: Barolo",
@@ -32,6 +35,7 @@
     "IsOverdue": false
   },
   {
+    "Id": "5969b696-a769-4089-b900-833f2c43569f",
     "Title": "Make a fuit salad",
     "DueDate": "2026-05-28T00:00:00",
     "Project": "Eat healthy",
@@ -44,6 +48,7 @@
     "IsOverdue": false
   },
   {
+    "Id": "cda95d2b-7e9b-4152-92b1-a43d592b5b25",
     "Title": "Finish on time this project",
     "DueDate": "2026-05-29T00:00:00",
     "Project": "Code until death",
@@ -54,6 +59,7 @@
     "IsOverdue": false
   },
   {
+    "Id": "ce37e554-206b-461d-9fec-9df051c84c73",
     "Title": "Cleaning the house",
     "DueDate": "2026-05-30T00:00:00",
     "Project": "Big cleaning before party",
@@ -66,6 +72,7 @@
     "IsOverdue": false
   },
   {
+    "Id": "c15fa580-40e3-4d32-824d-8475b29d8675",
     "Title": "Mid-Sommar Celebration!",
     "DueDate": "2026-06-22T00:00:00",
     "Project": "Plannig Mid-Sommar day",
@@ -74,6 +81,20 @@
       "Hollidays"
     ],
     "Description": "Deconstruct the whole day to divide task to everybody.",
+    "IsCompleted": false,
+    "IsOverdue": false
+  },
+  {
+    "Id": "c13d1105-2cba-4052-b0d2-d376ded67c1c",
+    "Title": "Plan food for Enjoy 22 celcius Sunday",
+    "DueDate": "2026-05-31T09:26:22.4117008+02:00",
+    "Project": "Enjoy 22 celcius Sunday",
+    "Priority": "Medium",
+    "Tags": [
+      "AI",
+      "Suggestion"
+    ],
+    "Description": "AI-generated suggestion for event: Enjoy 22 celcius Sunday",
     "IsCompleted": false,
     "IsOverdue": false
   }
