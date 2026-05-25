@@ -35,23 +35,26 @@ class Program
                 case "0":
                     Console.Clear();
                     Console.WriteLine("=== DASHBOARD SUMMARY ===");
+                    Console.WriteLine("-------------------------\n");
+                    Console.WriteLine($"Current Date: {DateTime.Now:yyyy-MM-dd}\n");
 
                     var summary = taskManager.GetSummary();
 
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Overdue Tasks: {summary.overdue}");
+                    Console.WriteLine($"Overdue Tasks: ---> {summary.overdue}");
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"Due Today: {summary.dueToday}");
+                    Console.WriteLine($"Due Today:--------> {summary.dueToday}");
 
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine($"Due This Week: {summary.dueWeek}");
+                    Console.WriteLine($"Due This Week:----> {summary.dueWeek}");
 
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Completed: {summary.completed}");
+                    Console.WriteLine($"Completed:--------> {summary.completed}");
 
+                    Console.WriteLine("-------------------------\n");
                     Console.ResetColor();
-                    Console.WriteLine($"Total Tasks: {summary.total}");
+                    Console.WriteLine($"Total Tasks:------> {summary.total}");
 
                     Console.WriteLine("\nPress any key to return to MAIN MENU.");
                     Console.ReadKey();
