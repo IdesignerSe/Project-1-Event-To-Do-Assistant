@@ -1,141 +1,170 @@
-Project-1-Todo List 
+📌 Event Todo Assistant — Console App (C# / .NET)
 
 ## Project Brief ##
-Your task is to build a todo list application. The application will allow a user to create new tasks, 
-assign them a title and due date, and choose a project for that task to belong to. They will need 
-to use a text based user interface via the command-line. Once they are using the application, 
-the user should be able to also edit, mark as done or remove tasks. They can also quit and save 
-the current task list to file, and then restart the application with the former state restored. The 
-interface should look similar to the mockup below: 
+A lightweight, structured, productivity‑focused console application for managing tasks, events, and AI‑generated suggestions.
+Built in C# / .NET, designed for clarity, modularity, and future AI integration (Cloud AI or Local LLM via Ollama).
 
-## Requirements ##
-The solution must achieve the following requirements: 
- Model a task with a task title, due date, status and project 
- Display a collection of tasks that can be sorted both by date and project 
- Support the ability to add, edit, mark as done, and remove tasks 
- Support a text-based user interface
- Load and save task list to file The solution may also include other creative features at 
-your discretion in case you wish to show some flair.
+🚀 Features (Current Stage)
 
-## Making the TODO-LIST ##
-I intent to do to a version that is Event oriente.
-Using a Calender per month gets the holidays giving the opportunity to create the event.
-An Ai subgest how to build the list. 
-User give the ok to the suggested list. or add his own.
+✅ Task Management
 
-## Bonus: AI assistant ##
-The Idea is start already to connect AI services also If is possible mimic a small one inside.
+Add tasks with:
 
-🧱 Features / Core To‑Do List
+Title
 
-Add tasks
+Project
+
+Priority
+
+Description
+
+Tags
+
+Due date
 
 Edit tasks
 
-Mark tasks as done
+Delete tasks
 
-Remove tasks
+Mark tasks as completed
 
-Sort by date
+View all tasks in a clean formatted list
 
-Sort by project
+🔍 Search & Filter System
+Search by project
 
-Display all tasks
+Filter by date (before / after / on)
 
-✔ File Persistence
-Save tasks to a .txt file
+Filter by status (completed / not completed)
 
-Load tasks on startup
+Search by tags
 
-Each task stored as one line:
-Title|2026-06-21|Midsummer|Pending
+Clean, readable result formatting
 
-✔ AI Integration
-Enter an event name
+🤖 AI Suggestions (Mock AI for now)
+Generate event‑based suggestions using a mock AI engine
 
-AI generates suggestions
+Save suggestions as tasks
 
-Split‑screen console layout
+Delete suggestions
 
-Import suggestions into your list
+Save all suggestions at once
 
-✔ Clean Architecture
-Separate class files
+Architecture prepared for:
 
-Models, Services, UI layers
+Cloud AI (OpenAI / Azure OpenAI / Claude / Groq)
 
-Easy to extend
+Local AI (Ollama, LM Studio, GPT4All)
 
-/EventTodoAssistant
+💾 Data Persistence
+Tasks saved to tasks.json
+
+Auto‑load on startup
+
+Auto‑save on exit
+
+🧱 Clean Architecture
+Models → TaskItem, AISuggestionItem
+
+Services → TaskManager, AISuggestionService, IAIService, Adapter
+
+UI → MenuUI, DisplayService
+
+Program.cs → Main loop + dependency setup
+
+🧩 Project Structure
+
+EventTodoAssistant/
 │
-├── Models
-│   └── TaskItem.cs
+├── Models/
+│   ├── TaskItem.cs
+│   ├── AISuggestionItem.cs
 │
-├── Services
+├── Services/
 │   ├── TaskManager.cs
 │   ├── AISuggestionService.cs
-│   └── DisplayService.cs
+│   ├── AISuggestionServiceAdapter.cs
+│   ├── IAIService.cs
+│   ├── CloudAIService.cs        (future)
+│   ├── LocalAIService.cs        (future)
 │
-├── UI
-│   └── MenuUI.cs
+├── UI/
+│   ├── MenuUI.cs
+│   ├── DisplayService.cs
 │
-├── Program.cs
-└── tasks.txt
+├── tasks.json
+└── Program.cs
 
 
-+------------------+
-|    TaskItem      |
-+------------------+
-| Title            |
-| DueDate          |
-| Project          |
-| Status           |
-+------------------+
-| MarkCompleted()  |
-| UpdateTitle()    |
-| UpdateDate()     |
-| UpdateProject()  |
-+------------------+
+🧠 AI Integration Roadmap
+The project is already structured to support multiple AI providers:
 
-            1..*
-              |
-              v
+🔹 1. Mock AI (current)
+Used for development and offline testing.
 
-+----------------------+
-|     TaskManager      |
-+----------------------+
-| Tasks: List<TaskItem>|
-+----------------------+
-| AddTask()            |
-| RemoveTask()         |
-| EditTask()           |
-| SortByDate()         |
-| SortByProject()      |
-| SaveToFile()         |
-| LoadFromFile()       |
-+----------------------+
+🔹 2. Cloud AI (planned)
+Planned support for:
 
-+----------------------+
-| AISuggestionService  |
-+----------------------+
-| Suggestions: List<string> |
-+----------------------+
-| GetSuggestions()     |
-| FormatSuggestions()  |
-+----------------------+
+OpenAI API
 
-+----------------------+
-|    DisplayService    |
-+----------------------+
-| ShowSplitScreen()    |
-| DrawLine()           |
-+----------------------+
+Azure OpenAI
 
-+----------------------+
-|       MenuUI         |
-+----------------------+
-| ShowMainMenu()       |
-| HandleUserInput()    |
-| PromptForTaskInfo()  |
-| ShowAISuggestions()  |
-+----------------------+
+Claude
+
+Groq
+
+Mistral
+
+🔹 3. Local AI (planned)
+Planned support for:
+
+Ollama (http://localhost:11434/api/generate)
+
+LM Studio
+
+GPT4All
+
+llama.cpp
+
+The IAIService interface allows switching AI providers with one line of code.
+
+🛠️ How to Run
+1. Clone the repository
+git clone https://github.com/<your-username>/<your-repo>.git
+
+2. Navigate into the project
+cd EventTodoAssistant
+
+3. Run the app at the temrinal of VS code.
+Be sure you are in the right folder. Then: 
+
+dotnet
+dotnet run
+
+📦 Requirements
+.NET 6 or later
+
+Windows / macOS / Linux
+
+(Optional) Ollama installed for local LLM
+
+(Optional) API key for cloud AI
+
+🌱 Future Enhancements
+AI‑generated event timelines
+
+Natural‑language task creation
+
+Priority scoring using AI
+
+Export tasks to calendar
+
+Import tasks from text or voice
+
+Color‑coded console UI
+
+Combined filters (project + date + status)
+
+Statistics dashboard
+
+Thanks for Stopping by !
