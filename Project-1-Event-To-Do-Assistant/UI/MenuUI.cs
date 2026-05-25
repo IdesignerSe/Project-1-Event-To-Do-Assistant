@@ -151,6 +151,15 @@ Console.ResetColor();
             Console.WriteLine("8. Save & Quit");
             Console.ResetColor();
             Console.WriteLine("   → Save your work and exit the app");
+
+Console.WriteLine();
+Console.WriteLine("========================================");
+Console.WriteLine("========================================");
+Console.WriteLine("========= WRITE AN OPTION ==============");
+Console.WriteLine("========================================");
+Console.WriteLine("========================================");
+Console.WriteLine();
+            
       }
     }
 }

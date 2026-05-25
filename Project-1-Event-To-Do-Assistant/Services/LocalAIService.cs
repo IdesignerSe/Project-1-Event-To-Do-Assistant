@@ -17,9 +17,16 @@ namespace EventTodoAssistant.Services
             };
 
             var response = await _http.PostAsJsonAsync("http://localhost:11434/api/generate", request);
+
+            // Safely read JSON
             var json = await response.Content.ReadFromJsonAsync<dynamic>();
 
-            string text = json.response;
+            // Safely extract "response" field
+            string text = json?.response ?? "";
+
+            // If empty, return fallback
+            if (string.IsNullOrWhiteSpace(text))
+                return new List<string> { "No suggestions returned from Local AI." };
 
             return text.Split('\n')
                        .Where(x => !string.IsNullOrWhiteSpace(x))

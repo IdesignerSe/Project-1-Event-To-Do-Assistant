@@ -29,7 +29,7 @@ class Program
             menu.ShowMainMenu();
 
             string choice = ReadNonEmpty("Choose an option number: ");
-
+            
             switch (choice)
             {
                 case "0":
@@ -426,7 +426,7 @@ case "10":
                         ? "(No description)"
                         : selectedTask.Description);
 
-                    Console.WriteLine("\nPress any key to return...");
+                    Console.WriteLine("\nPress any key to return to Main Menu...");
                     Console.ReadKey();
                     break;
 
@@ -460,7 +460,7 @@ case "10":
         Console.WriteLine($"{kvp.Key}: {kvp.Value} task(s)");
     }
 
-    Console.WriteLine("\nPress any key to return...");
+    Console.WriteLine("\nPress any key to return to Main Menu...");
     Console.ReadKey();
     break;
 
