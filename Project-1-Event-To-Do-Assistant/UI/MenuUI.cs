@@ -6,15 +6,15 @@ namespace EventTodoAssistant.UI
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
 
-Console.WriteLine("========================================");
-Console.WriteLine("========================================");
-Console.WriteLine("========================================");
-Console.WriteLine("========= EVENT TODO ASSISTANT =========");
-Console.WriteLine("========================================");
-Console.WriteLine("========================================");
-Console.WriteLine("========================================");
+            Console.WriteLine("========================================");
+            Console.WriteLine("========================================");
+            Console.WriteLine("========================================");
+            Console.WriteLine("========= EVENT TODO ASSISTANT =========");
+            Console.WriteLine("========================================");
+            Console.WriteLine("========================================");
+            Console.WriteLine("========================================");
 
-Console.ResetColor();
+            Console.ResetColor();
 
 
             Console.WriteLine();
@@ -22,8 +22,8 @@ Console.ResetColor();
             Console.WriteLine("MAIN MENU");
             Console.ResetColor();
             Console.WriteLine("----------------------------------------");
-            
-            
+
+
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("TASK MANAGEMENT");
@@ -152,14 +152,14 @@ Console.ResetColor();
             Console.ResetColor();
             Console.WriteLine("   → Save your work and exit the app");
 
-Console.WriteLine();
-Console.WriteLine("========================================");
-Console.WriteLine("========================================");
-Console.WriteLine("========= WRITE AN OPTION ==============");
-Console.WriteLine("========================================");
-Console.WriteLine("========================================");
-Console.WriteLine();
-            
-      }
+            Console.WriteLine();
+            Console.WriteLine("========================================");
+            Console.WriteLine("========================================");
+            Console.WriteLine("========= WRITE AN OPTION ==============");
+            Console.WriteLine("========================================");
+            Console.WriteLine("========================================");
+            Console.WriteLine();
+
+        }
     }
 }

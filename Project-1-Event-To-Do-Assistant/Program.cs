@@ -29,7 +29,7 @@ class Program
             menu.ShowMainMenu();
 
             string choice = ReadNonEmpty("Choose an option number: ");
-            
+
             switch (choice)
             {
                 case "0":
@@ -200,176 +200,176 @@ class Program
 
 
                 case "9":
-    Console.Clear();
-    Console.WriteLine("=== AI EVENT SUGGESTIONS ===\n");
+                    Console.Clear();
+                    Console.WriteLine("=== AI EVENT SUGGESTIONS ===\n");
 
-    Console.Write("Enter event name: ");
-string eventName = Console.ReadLine()?.Trim() ?? "";
+                    Console.Write("Enter event name: ");
+                    string eventName = Console.ReadLine()?.Trim() ?? "";
 
-    Console.WriteLine("\nGenerating suggestions...\n");
+                    Console.WriteLine("\nGenerating suggestions...\n");
 
-    // Get suggestions from AI service
-    var suggestions = aiService.GenerateSuggestionsAsync(eventName).Result;
+                    // Get suggestions from AI service
+                    var suggestions = aiService.GenerateSuggestionsAsync(eventName).Result;
 
-    // Store suggestions temporarily in TaskManager
-    taskManager.AISuggestions.Clear();
-    foreach (var s in suggestions)
-    {
-        taskManager.AISuggestions.Add(new AISuggestionItem
-        {
-            EventName = eventName,
-            Suggestion = s,
-            IsSaved = false
-        });
-    }
+                    // Store suggestions temporarily in TaskManager
+                    taskManager.AISuggestions.Clear();
+                    foreach (var s in suggestions)
+                    {
+                        taskManager.AISuggestions.Add(new AISuggestionItem
+                        {
+                            EventName = eventName,
+                            Suggestion = s,
+                            IsSaved = false
+                        });
+                    }
 
-    Console.ForegroundColor = ConsoleColor.Cyan;
-    Console.WriteLine($"Event: {eventName}\n");
-    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine($"Event: {eventName}\n");
+                    Console.ResetColor();
 
-    Console.WriteLine("Suggested Tasks:");
-    Console.WriteLine("----------------");
+                    Console.WriteLine("Suggested Tasks:");
+                    Console.WriteLine("----------------");
 
-    for (int i = 0; i < taskManager.AISuggestions.Count; i++)
-    {
-        var sug = taskManager.AISuggestions[i];
-        Console.WriteLine($"{i}. {sug.Suggestion}");
-    }
+                    for (int i = 0; i < taskManager.AISuggestions.Count; i++)
+                    {
+                        var sug = taskManager.AISuggestions[i];
+                        Console.WriteLine($"{i}. {sug.Suggestion}");
+                    }
 
-    Console.WriteLine("\nOptions:");
-    Console.WriteLine("1. Save a suggestion");
-    Console.WriteLine("2. Delete a suggestion");
-    Console.WriteLine("3. Save ALL suggestions");
-    Console.WriteLine("4. Return to Main Menu");
+                    Console.WriteLine("\nOptions:");
+                    Console.WriteLine("1. Save a suggestion");
+                    Console.WriteLine("2. Delete a suggestion");
+                    Console.WriteLine("3. Save ALL suggestions");
+                    Console.WriteLine("4. Return to Main Menu");
 
-    Console.Write("\nChoose an option: ");
-    string aiChoice = Console.ReadLine()?.Trim() ?? "";
+                    Console.Write("\nChoose an option: ");
+                    string aiChoice = Console.ReadLine()?.Trim() ?? "";
 
-    if (aiChoice == "1")
-    {
-        Console.Write("Enter suggestion index to save: ");
-        int idx = int.Parse(Console.ReadLine() ?? "0");
+                    if (aiChoice == "1")
+                    {
+                        Console.Write("Enter suggestion index to save: ");
+                        int idx = int.Parse(Console.ReadLine() ?? "0");
 
-        var sug = taskManager.AISuggestions[idx];
+                        var sug = taskManager.AISuggestions[idx];
 
-        taskManager.AddTask(new TaskItem
-        {
-            Title = sug.Suggestion,
-            Project = sug.EventName,
-            Priority = "Medium",
-            Tags = new List<string> { "AI", "Suggestion" },
-            Description = $"AI-generated suggestion for event: {sug.EventName}",
-            DueDate = DateTime.Now.AddDays(7)
-        });
+                        taskManager.AddTask(new TaskItem
+                        {
+                            Title = sug.Suggestion,
+                            Project = sug.EventName,
+                            Priority = "Medium",
+                            Tags = new List<string> { "AI", "Suggestion" },
+                            Description = $"AI-generated suggestion for event: {sug.EventName}",
+                            DueDate = DateTime.Now.AddDays(7)
+                        });
 
-        sug.IsSaved = true;
+                        sug.IsSaved = true;
 
-        Console.WriteLine("\nSuggestion saved as a task!");
-        Console.WriteLine("\nAfter saving, Go to Main Menu Option 8 to fully save all tasks to file.");
+                        Console.WriteLine("\nSuggestion saved as a task!");
+                        Console.WriteLine("\nAfter saving, Go to Main Menu Option 8 to fully save all tasks to file.");
 
-        Console.ReadKey();
-    }
-    else if (aiChoice == "2")
-    {
-        Console.Write("Enter suggestion index to delete: ");
-        int idx = int.Parse(Console.ReadLine() ?? "0");
+                        Console.ReadKey();
+                    }
+                    else if (aiChoice == "2")
+                    {
+                        Console.Write("Enter suggestion index to delete: ");
+                        int idx = int.Parse(Console.ReadLine() ?? "0");
 
-        taskManager.AISuggestions.RemoveAt(idx);
+                        taskManager.AISuggestions.RemoveAt(idx);
 
-        Console.WriteLine("\nSuggestion removed.");
-        Console.ReadKey();
-    }
-    else if (aiChoice == "3")
-    {
-        foreach (var sug in taskManager.AISuggestions)
-        {
-            taskManager.AddTask(new TaskItem
-            {
-                Title = sug.Suggestion,
-                Project = sug.EventName,
-                Priority = "Medium",
-                Tags = new List<string> { "AI", "Suggestion" },
-                Description = $"AI-generated suggestion for event: {sug.EventName}",
-                DueDate = DateTime.Now.AddDays(7)
-            });
+                        Console.WriteLine("\nSuggestion removed.");
+                        Console.ReadKey();
+                    }
+                    else if (aiChoice == "3")
+                    {
+                        foreach (var sug in taskManager.AISuggestions)
+                        {
+                            taskManager.AddTask(new TaskItem
+                            {
+                                Title = sug.Suggestion,
+                                Project = sug.EventName,
+                                Priority = "Medium",
+                                Tags = new List<string> { "AI", "Suggestion" },
+                                Description = $"AI-generated suggestion for event: {sug.EventName}",
+                                DueDate = DateTime.Now.AddDays(7)
+                            });
 
-            sug.IsSaved = true;
-        }
+                            sug.IsSaved = true;
+                        }
 
-        Console.WriteLine("\nAll suggestions saved!");
-        Console.ReadKey();
-    }
+                        Console.WriteLine("\nAll suggestions saved!");
+                        Console.ReadKey();
+                    }
 
-    break;
+                    break;
 
-case "10":
-    Console.Clear();
-    Console.WriteLine("=== SEARCH & FILTER ===");
-    Console.WriteLine("1. Search by Project");
-    Console.WriteLine("2. Filter by Date");
-    Console.WriteLine("3. Filter by Status");
-    Console.WriteLine("4. Search by Tag");
-    Console.WriteLine("5. Back to Main Menu");
+                case "10":
+                    Console.Clear();
+                    Console.WriteLine("=== SEARCH & FILTER ===");
+                    Console.WriteLine("1. Search by Project");
+                    Console.WriteLine("2. Filter by Date");
+                    Console.WriteLine("3. Filter by Status");
+                    Console.WriteLine("4. Search by Tag");
+                    Console.WriteLine("5. Back to Main Menu");
 
-    string sfaiChoice = ReadNonEmpty("Choose an option: ");
+                    string sfaiChoice = ReadNonEmpty("Choose an option: ");
 
-    if (sfaiChoice == "1")
-    {
-        string projectName = ReadNonEmpty("Enter project name: ");
-        var results = taskManager.SearchByProject(projectName);
+                    if (sfaiChoice == "1")
+                    {
+                        string projectName = ReadNonEmpty("Enter project name: ");
+                        var results = taskManager.SearchByProject(projectName);
 
-        Console.WriteLine("=== RESULTS ===");
-        foreach (var t in results)
-            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
+                        Console.WriteLine("=== RESULTS ===");
+                        foreach (var t in results)
+                            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
 
-        Console.ReadKey();
-    }
-    else if (sfaiChoice == "2")   // ⭐ FIXED HERE
-    {
-        DateTime filterDate = ReadDate("Enter date (yyyy-mm-dd): ");
-        Console.Write("Filter (before/after/on): ");
-        string mode = Console.ReadLine() ?? "on";
+                        Console.ReadKey();
+                    }
+                    else if (sfaiChoice == "2")   // ⭐ FIXED HERE
+                    {
+                        DateTime filterDate = ReadDate("Enter date (yyyy-mm-dd): ");
+                        Console.Write("Filter (before/after/on): ");
+                        string mode = Console.ReadLine() ?? "on";
 
-        var results = taskManager.FilterByDate(filterDate, mode);
+                        var results = taskManager.FilterByDate(filterDate, mode);
 
-        Console.WriteLine("=== RESULTS ===");
-        foreach (var t in results)
-            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
+                        Console.WriteLine("=== RESULTS ===");
+                        foreach (var t in results)
+                            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
 
-        Console.ReadKey();
-    }
-    else if (sfaiChoice == "3")
-    {
-        Console.Write("Show completed? (yes/no): ");
-        string ans = Console.ReadLine()?.ToLower() ?? "no";
+                        Console.ReadKey();
+                    }
+                    else if (sfaiChoice == "3")
+                    {
+                        Console.Write("Show completed? (yes/no): ");
+                        string ans = Console.ReadLine()?.ToLower() ?? "no";
 
-        bool completed = ans == "yes";
+                        bool completed = ans == "yes";
 
-        var results = taskManager.FilterByStatus(completed);
+                        var results = taskManager.FilterByStatus(completed);
 
-        Console.WriteLine("=== RESULTS ===");
-        foreach (var t in results)
-            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
+                        Console.WriteLine("=== RESULTS ===");
+                        foreach (var t in results)
+                            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
 
-        Console.ReadKey();
-    }
-    else if (sfaiChoice == "4")
-    {
-        string tagSearch = ReadNonEmpty("Enter tag to search: ");
+                        Console.ReadKey();
+                    }
+                    else if (sfaiChoice == "4")
+                    {
+                        string tagSearch = ReadNonEmpty("Enter tag to search: ");
 
-        var results = taskManager.Tasks
-            .Where(t => t.Tags.Any(tag =>
-                tag.Contains(tagSearch, StringComparison.OrdinalIgnoreCase)))
-            .ToList();
+                        var results = taskManager.Tasks
+                            .Where(t => t.Tags.Any(tag =>
+                                tag.Contains(tagSearch, StringComparison.OrdinalIgnoreCase)))
+                            .ToList();
 
-        Console.WriteLine("=== RESULTS ===");
-        foreach (var t in results)
-            Console.WriteLine($"{t.Title} - {string.Join(", ", t.Tags)} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
+                        Console.WriteLine("=== RESULTS ===");
+                        foreach (var t in results)
+                            Console.WriteLine($"{t.Title} - {string.Join(", ", t.Tags)} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
 
-        Console.ReadKey();
-    }
+                        Console.ReadKey();
+                    }
 
-    break;
+                    break;
 
 
                 case "11":
@@ -443,87 +443,87 @@ case "10":
                     break;
 
                 case "15":
-    Console.Clear();
-    Console.WriteLine("=== TAG STATISTICS ===\n");
+                    Console.Clear();
+                    Console.WriteLine("=== TAG STATISTICS ===\n");
 
-    var stats = taskManager.GetTagStatistics();
+                    var stats = taskManager.GetTagStatistics();
 
-    if (stats.Count == 0)
-    {
-        Console.WriteLine("No tags found.");
-        Console.ReadKey();
-        break;
-    }
+                    if (stats.Count == 0)
+                    {
+                        Console.WriteLine("No tags found.");
+                        Console.ReadKey();
+                        break;
+                    }
 
-    foreach (var kvp in stats)
-    {
-        Console.WriteLine($"{kvp.Key}: {kvp.Value} task(s)");
-    }
+                    foreach (var kvp in stats)
+                    {
+                        Console.WriteLine($"{kvp.Key}: {kvp.Value} task(s)");
+                    }
 
-    Console.WriteLine("\nPress any key to return to Main Menu...");
-    Console.ReadKey();
-    break;
+                    Console.WriteLine("\nPress any key to return to Main Menu...");
+                    Console.ReadKey();
+                    break;
 
                 case "16":
-    Console.Clear();
-    Console.WriteLine("=== SMART EVENT ASSISTANT ===\n");
+                    Console.Clear();
+                    Console.WriteLine("=== SMART EVENT ASSISTANT ===\n");
 
-    string evName = ReadNonEmpty("Event name: ");
-    DateTime evDate = ReadDate("Event date (yyyy-mm-dd): ");
+                    string evName = ReadNonEmpty("Event name: ");
+                    DateTime evDate = ReadDate("Event date (yyyy-mm-dd): ");
 
-    var generated = aiService.GenerateEventTasksAsync(evName, evDate).Result;
+                    var generated = aiService.GenerateEventTasksAsync(evName, evDate).Result;
 
-    Console.WriteLine("\nGenerated tasks:\n");
-    foreach (var t in generated)
-        Console.WriteLine($"- {t.Title} (Due: {t.DueDate:yyyy-MM-dd})");
+                    Console.WriteLine("\nGenerated tasks:\n");
+                    foreach (var t in generated)
+                        Console.WriteLine($"- {t.Title} (Due: {t.DueDate:yyyy-MM-dd})");
 
-    Console.Write("\nAdd these tasks to your list? (yes/no): ");
-    string ans2 = Console.ReadLine()?.ToLower() ?? "no";
+                    Console.Write("\nAdd these tasks to your list? (yes/no): ");
+                    string ans2 = Console.ReadLine()?.ToLower() ?? "no";
 
-    if (ans2 == "yes")
-    {
-        foreach (var t in generated)
-            taskManager.AddTask(t);
+                    if (ans2 == "yes")
+                    {
+                        foreach (var t in generated)
+                            taskManager.AddTask(t);
 
-        Console.WriteLine("Tasks added!");
-    }
-    else
-    {
-        Console.WriteLine("Cancelled.");
-    }
+                        Console.WriteLine("Tasks added!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Cancelled.");
+                    }
 
-    Console.ReadKey();
-    break;
+                    Console.ReadKey();
+                    break;
 
                 case "17":
-    Console.Clear();
-    Console.WriteLine("=== TASK HISTORY ===\n");
+                    Console.Clear();
+                    Console.WriteLine("=== TASK HISTORY ===\n");
 
-    string historyPath = "task_history.txt";
+                    string historyPath = "task_history.txt";
 
-    if (!File.Exists(historyPath))
-    {
-        Console.WriteLine("No history available yet.");
-    }
-    else
-    {
-        var lines = File.ReadAllLines(historyPath);
+                    if (!File.Exists(historyPath))
+                    {
+                        Console.WriteLine("No history available yet.");
+                    }
+                    else
+                    {
+                        var lines = File.ReadAllLines(historyPath);
 
-        if (lines.Length == 0)
-        {
-            Console.WriteLine("History file is empty.");
-        }
-        else
-        {
-            foreach (var line in lines)
-                Console.WriteLine(line);
-        }
-    }
+                        if (lines.Length == 0)
+                        {
+                            Console.WriteLine("History file is empty.");
+                        }
+                        else
+                        {
+                            foreach (var line in lines)
+                                Console.WriteLine(line);
+                        }
+                    }
 
-    Console.WriteLine("\nPress any key to return to Main Menu...");
-    Console.ReadKey();
-    break;
-       
+                    Console.WriteLine("\nPress any key to return to Main Menu...");
+                    Console.ReadKey();
+                    break;
+
             }
         }
     }

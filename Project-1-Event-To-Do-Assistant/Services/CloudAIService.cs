@@ -15,35 +15,35 @@ namespace EventTodoAssistant.Services
         }
 
         public async Task<List<string>> GenerateSuggestionsAsync(string eventName)
-{
-    var request = new
-    {
-        model = "gpt-4o-mini",
-        messages = new[]
         {
+            var request = new
+            {
+                model = "gpt-4o-mini",
+                messages = new[]
+                {
             new { role = "user", content = $"Give me 5 task suggestions for: {eventName}" }
         }
-    };
+            };
 
-    _http.DefaultRequestHeaders.Remove("Authorization");
-    _http.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
+            _http.DefaultRequestHeaders.Remove("Authorization");
+            _http.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
 
-    var response = await _http.PostAsJsonAsync("https://api.openai.com/v1/chat/completions", request);
+            var response = await _http.PostAsJsonAsync("https://api.openai.com/v1/chat/completions", request);
 
-    // Safely read JSON
-    var json = await response.Content.ReadFromJsonAsync<dynamic>();
+            // Safely read JSON
+            var json = await response.Content.ReadFromJsonAsync<dynamic>();
 
-    // Safely extract content
-    string text =
-        json?.choices?[0]?.message?.content ??
-        "AI returned no suggestions.";
+            // Safely extract content
+            string text =
+                json?.choices?[0]?.message?.content ??
+                "AI returned no suggestions.";
 
-    // Split into list
-    return text.Split('\n')
-               .Where(x => !string.IsNullOrWhiteSpace(x))
-               .Select(x => x.TrimStart('-', ' '))
-               .ToList();
-}
+            // Split into list
+            return text.Split('\n')
+                       .Where(x => !string.IsNullOrWhiteSpace(x))
+                       .Select(x => x.TrimStart('-', ' '))
+                       .ToList();
+        }
 
 
         public Task<List<TaskItem>> GenerateEventTasksAsync(string eventName, DateTime eventDate)
