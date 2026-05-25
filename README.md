@@ -73,7 +73,7 @@ UI → MenuUI, DisplayService
 Program.cs → Main loop + dependency setup
 
 🧩 Project Structure
-
+```text
 EventTodoAssistant/
 │
 ├── Models/
@@ -94,7 +94,7 @@ EventTodoAssistant/
 │
 ├── tasks.json
 └── Program.cs
-
+```
 
 🧠 AI Integration Roadmap
 The project is already structured to support multiple AI providers:
