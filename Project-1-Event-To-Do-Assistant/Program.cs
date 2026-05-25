@@ -204,7 +204,7 @@ class Program
     Console.WriteLine("=== AI EVENT SUGGESTIONS ===\n");
 
     Console.Write("Enter event name: ");
-    string eventName = Console.ReadLine()?.Trim();
+string eventName = Console.ReadLine()?.Trim() ?? "";
 
     Console.WriteLine("\nGenerating suggestions...\n");
 
@@ -243,12 +243,12 @@ class Program
     Console.WriteLine("4. Return to Main Menu");
 
     Console.Write("\nChoose an option: ");
-    string aiChoice = Console.ReadLine()?.Trim();
+    string aiChoice = Console.ReadLine()?.Trim() ?? "";
 
     if (aiChoice == "1")
     {
         Console.Write("Enter suggestion index to save: ");
-        int idx = int.Parse(Console.ReadLine());
+        int idx = int.Parse(Console.ReadLine() ?? "0");
 
         var sug = taskManager.AISuggestions[idx];
 
@@ -272,7 +272,7 @@ class Program
     else if (aiChoice == "2")
     {
         Console.Write("Enter suggestion index to delete: ");
-        int idx = int.Parse(Console.ReadLine());
+        int idx = int.Parse(Console.ReadLine() ?? "0");
 
         taskManager.AISuggestions.RemoveAt(idx);
 
@@ -562,7 +562,7 @@ case "10":
         while (true)
         {
             Console.Write(message);
-            string? input = Console.ReadLine();
+            string? input = Console.ReadLine() ?? "";
 
             if (!string.IsNullOrWhiteSpace(input))
                 return input;

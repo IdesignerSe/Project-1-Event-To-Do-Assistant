@@ -151,11 +151,6 @@ Console.ResetColor();
             Console.WriteLine("8. Save & Quit");
             Console.ResetColor();
             Console.WriteLine("   → Save your work and exit the app");
-
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Choose an option number: ");
-            Console.ResetColor();
-        }
+      }
     }
 }
