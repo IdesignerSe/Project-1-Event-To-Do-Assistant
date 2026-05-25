@@ -90,7 +90,7 @@ EventTodoAssistant/
 │
 ├── UI/
 │   ├── MenuUI.cs
-│   ├── DisplayService.cs
+│   ├── DisplayService.cs (future)
 │
 ├── tasks.json
 └── Program.cs
