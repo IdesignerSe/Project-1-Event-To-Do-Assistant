@@ -3,6 +3,8 @@ namespace EventTodoAssistant.Models
     public class TaskItem
     {
         public Guid Id { get; set; } = Guid.NewGuid();
+        public string ShortId => Id.ToString().Substring(0, 3);
+
 
         public string Title { get; set; } = "";
         public DateTime DueDate { get; set; }
@@ -29,5 +31,20 @@ namespace EventTodoAssistant.Models
         public void UpdateDescription(string newDescription) => Description = newDescription;
 
         public void MarkCompleted() => IsCompleted = true;
+
+        public string Status
+        {
+            get
+            {
+                if (IsCompleted)
+                    return "Done";
+
+                if (IsOverdue)
+                    return "OVERDUE";
+
+                return "Pending";
+            }
+        }
+
     }
 }

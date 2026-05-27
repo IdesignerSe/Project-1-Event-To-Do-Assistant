@@ -71,6 +71,8 @@ class Program
                     Console.WriteLine();
 
                     Console.WriteLine("=== TASK LIST ===");
+                    Console.WriteLine();
+
 
                     Console.WriteLine(
                         Pad("Idx", 5) +

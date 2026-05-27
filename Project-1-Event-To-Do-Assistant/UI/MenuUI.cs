@@ -157,7 +157,7 @@ namespace EventTodoAssistant.UI
             Console.WriteLine("========================================");
             Console.WriteLine("========================================");
             Console.WriteLine("== GO UP TO SEE 17 OPTIONS/FUNCTIONS ===");
-            Console.WriteLine("====== THEN WRITE AN NUMBER OPTION =====");
+            Console.WriteLine("==== THEN WRITE YOUR OPTION/NUMBER =====");
             Console.WriteLine("========================================");
             Console.WriteLine("========================================");
             Console.WriteLine();
