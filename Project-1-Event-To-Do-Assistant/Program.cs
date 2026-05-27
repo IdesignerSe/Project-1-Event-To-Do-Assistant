@@ -121,80 +121,62 @@ class Program
 
                     Console.ReadKey();
                     break;
-
                 case "2":
-                    Console.Clear();
-                    string title = ReadNonEmpty("Task title: ");
-                    DateTime date = ReadDate("Due date (yyyy-mm-dd): ");
-                    string project = ReadNonEmpty("Project: ");
-                    string priority = ReadPriority("Priority (low/medium/high): ");
-
-                    string tagsInput = ReadNonEmpty("Tags (comma-separated): ");
-                    List<string> tags = tagsInput.Split(',').Select(t => t.Trim()).ToList();
-
-                    string description = ReadDescription("Description (optional): ");
-
-                    taskManager.AddTask(new TaskItem
+                    while (true)
                     {
-                        Title = title,
-                        DueDate = date,
-                        Project = project,
-                        Priority = priority,
-                        Tags = tags,
-                        Description = description,
-                        IsCompleted = false
-                    });
+                        Console.Clear();
+                        Console.WriteLine("=== ADD TASK ===");
+                        Console.WriteLine("1. Create a new task");
+                        Console.WriteLine("0. Back to Main Menu");
+                        Console.WriteLine("-----------------------------");
 
-                    Console.WriteLine();
-                    Console.WriteLine("Task added!");
-                    Console.WriteLine();
-                    Console.WriteLine("────────────────────────────────────────");
-                    Console.WriteLine();
-                    Console.WriteLine("\nPress any key to return to Main Menu...");
-                    Console.ReadKey();
+                        string SubChoice = ReadNonEmpty("Choose an option: ");
+
+                        if (SubChoice == "0")
+                            break;
+
+                        if (SubChoice == "1")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("=== NEW TASK ===");
+
+                            string title = ReadNonEmpty("Task title: ");
+                            DateTime date = ReadDate("Due date (yyyy-mm-dd): ");
+                            string project = ReadNonEmpty("Project: ");
+                            string priority = ReadPriority("Priority (low/medium/high): ");
+
+                            string tagsInput = ReadNonEmpty("Tags (comma-separated): ");
+                            List<string> tags = tagsInput.Split(',').Select(t => t.Trim()).ToList();
+
+                            string description = ReadDescription("Description (optional): ");
+
+                            taskManager.AddTask(new TaskItem
+                            {
+                                Title = title,
+                                DueDate = date,
+                                Project = project,
+                                Priority = priority,
+                                Tags = tags,
+                                Description = description,
+                                IsCompleted = false
+                            });
+
+                            Console.WriteLine();
+                            Console.WriteLine("Task added!");
+                            Console.WriteLine();
+                            Console.WriteLine("────────────────────────────────────────");
+                            Console.WriteLine("\nPress any key to return...");
+                            Console.ReadKey();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid option.");
+                            Console.ReadKey();
+                        }
+                    }
                     break;
 
-                case "3":
-                    Console.Clear();
-                    int editIndex = ReadInt("Enter task index to edit: ");
 
-                    var taskToEdit = taskManager.GetTask(editIndex);
-                    if (taskToEdit != null)
-                    {
-                        taskToEdit.UpdateTitle(ReadNonEmpty("New title: "));
-                        taskToEdit.UpdateDate(ReadDate("New date (yyyy-mm-dd): "));
-                        taskToEdit.UpdateProject(ReadNonEmpty("New project: "));
-
-                        string newTagsInput = ReadNonEmpty("New tags (comma-separated): ");
-                        taskToEdit.UpdateTags(newTagsInput.Split(',').Select(t => t.Trim()).ToList());
-
-                        taskToEdit.UpdateDescription(ReadDescription("New description: "));
-
-                        Console.WriteLine("Task updated!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid index.");
-                    }
-                    Console.ReadKey();
-                    break;
-
-                case "4":
-                    Console.Clear();
-                    int doneIndex = ReadInt("Enter task index to mark as done: ");
-
-                    var taskToMark = taskManager.GetTask(doneIndex);
-                    if (taskToMark != null)
-                    {
-                        taskToMark.MarkCompleted();
-                        Console.WriteLine("Task marked as done!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid index.");
-                    }
-                    Console.ReadKey();
-                    break;
 
                 case "5":
                     Console.Clear();
