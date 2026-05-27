@@ -175,7 +175,167 @@ class Program
                         }
                     }
                     break;
+                case "3":
+                    while (true)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("=== EDIT TASK ===");
+                        Console.WriteLine("1. Select a task to edit");
+                        Console.WriteLine("0. Back to Main Menu");
+                        Console.WriteLine("-----------------------------");
 
+                        string subChoice3 = ReadNonEmpty("Choose an option: ");
+
+                        if (subChoice3 == "0")
+                            break;
+
+                        if (subChoice3 == "1")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("=== SELECT TASK TO EDIT ===");
+
+                            var allTasks = taskManager.Tasks;
+
+                            if (allTasks.Count == 0)
+                            {
+                                Console.WriteLine("No tasks available.");
+                                Console.WriteLine("\nPress any key to return...");
+                                Console.ReadKey();
+                                continue;
+                            }
+
+                            // Show numbered list of tasks
+                            for (int i = 0; i < allTasks.Count; i++)
+                            {
+                                var t = allTasks[i];
+                                Console.WriteLine($"{i + 1}. {t.Title} | {t.Project} | {t.DueDate:yyyy-MM-dd} | {t.Priority}");
+                            }
+
+                            Console.WriteLine();
+                            int index = ReadInt("Enter task number to edit: ") - 1;
+
+                            if (index < 0 || index >= allTasks.Count)
+                            {
+                                Console.WriteLine("Invalid task number.");
+                                Console.ReadKey();
+                                continue;
+                            }
+
+                            var task = allTasks[index];
+
+                            Console.Clear();
+                            Console.WriteLine("=== EDITING TASK ===");
+
+                            Console.WriteLine($"Current Title: {task.Title}");
+                            string newTitle = ReadOptional("New title (leave empty to keep): ");
+                            if (!string.IsNullOrWhiteSpace(newTitle))
+                                task.Title = newTitle;
+
+                            Console.WriteLine($"Current Due Date: {task.DueDate:yyyy-MM-dd}");
+                            DateTime newDate = ReadOptionalDate("New due date (yyyy-mm-dd, leave empty to keep): ", task.DueDate);
+                            task.DueDate = newDate;
+
+                            Console.WriteLine($"Current Project: {task.Project}");
+                            string newProject = ReadOptional("New project (leave empty to keep): ");
+                            if (!string.IsNullOrWhiteSpace(newProject))
+                                task.Project = newProject;
+
+                            Console.WriteLine($"Current Priority: {task.Priority}");
+                            string newPriority = ReadOptionalPriority("New priority (low/medium/high, leave empty to keep): ", task.Priority);
+                            task.Priority = newPriority;
+
+                            Console.WriteLine($"Current Tags: {string.Join(", ", task.Tags)}");
+                            string newTags = ReadOptional("New tags (comma-separated, leave empty to keep): ");
+                            if (!string.IsNullOrWhiteSpace(newTags))
+                                task.Tags = newTags.Split(',').Select(t => t.Trim()).ToList();
+
+                            Console.WriteLine($"Current Description: {task.Description}");
+                            string newDesc = ReadOptional("New description (leave empty to keep): ");
+                            if (!string.IsNullOrWhiteSpace(newDesc))
+                                task.Description = newDesc;
+
+                            Console.WriteLine();
+                            Console.WriteLine("Task updated!");
+                            Console.WriteLine("\nPress any key to return...");
+                            Console.ReadKey();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid option.");
+                            Console.ReadKey();
+                        }
+                    }
+                    break;
+
+                case "4":
+                    while (true)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("=== MARK TASK AS COMPLETED ===");
+                        Console.WriteLine("1. Select a task to mark as completed");
+                        Console.WriteLine("0. Back to Main Menu");
+                        Console.WriteLine("-----------------------------");
+
+                        string subChoice4 = ReadNonEmpty("Choose an option: ");
+
+                        if (subChoice4 == "0")
+                            break;
+
+                        if (subChoice4 == "1")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("=== SELECT TASK TO MARK AS COMPLETED ===");
+
+                            var allTasks = taskManager.Tasks;
+
+                            if (allTasks.Count == 0)
+                            {
+                                Console.WriteLine("No tasks available.");
+                                Console.WriteLine("\nPress any key to return...");
+                                Console.ReadKey();
+                                continue;
+                            }
+
+                            // Show numbered list of tasks
+                            for (int i = 0; i < allTasks.Count; i++)
+                            {
+                                var t = allTasks[i];
+                                string status = t.IsCompleted ? "[DONE]" : "[ ]";
+                                Console.WriteLine($"{i + 1}. {status} {t.Title} | {t.Project} | {t.DueDate:yyyy-MM-dd}");
+                            }
+
+                            Console.WriteLine();
+                            int index = ReadInt("Enter task number to mark as completed: ") - 1;
+
+                            if (index < 0 || index >= allTasks.Count)
+                            {
+                                Console.WriteLine("Invalid task number.");
+                                Console.ReadKey();
+                                continue;
+                            }
+
+                            var task = allTasks[index];
+
+                            if (task.IsCompleted)
+                            {
+                                Console.WriteLine("This task is already marked as completed.");
+                            }
+                            else
+                            {
+                                task.IsCompleted = true;
+                                Console.WriteLine("Task marked as completed!");
+                            }
+
+                            Console.WriteLine("\nPress any key to return...");
+                            Console.ReadKey();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid option.");
+                            Console.ReadKey();
+                        }
+                    }
+                    break;
 
 
                 case "5":
