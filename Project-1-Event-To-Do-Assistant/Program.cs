@@ -540,6 +540,7 @@ class Program
                         Console.WriteLine("────────────────────────────────────────");
                         Console.WriteLine();
                         Console.WriteLine("0. Back to Main Menu");
+                        Console.WriteLine("The list is automatically sorted by date. To save this order, go to Main Menu Option 8 to save to file.");
                         Console.WriteLine("-----------------------------");
 
                         string subChoice6 = ReadNonEmpty("Choose an option: ");
