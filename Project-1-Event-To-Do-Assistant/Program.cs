@@ -175,6 +175,7 @@ class Program
                         }
                     }
                     break;
+
                 case "3":
                     while (true)
                     {
@@ -212,16 +213,16 @@ class Program
                             }
 
                             Console.WriteLine();
-                            int index = ReadInt("Enter task number to edit: ") - 1;
+                            int editIndex = ReadInt("Enter task number to edit: ") - 1;
 
-                            if (index < 0 || index >= allTasks.Count)
+                            if (editIndex < 0 || editIndex >= allTasks.Count)
                             {
                                 Console.WriteLine("Invalid task number.");
                                 Console.ReadKey();
                                 continue;
                             }
 
-                            var task = allTasks[index];
+                            var task = allTasks[editIndex];
 
                             Console.Clear();
                             Console.WriteLine("=== EDITING TASK ===");
@@ -267,6 +268,7 @@ class Program
                     }
                     break;
 
+
                 case "4":
                     while (true)
                     {
@@ -305,16 +307,16 @@ class Program
                             }
 
                             Console.WriteLine();
-                            int index = ReadInt("Enter task number to mark as completed: ") - 1;
+                            int editIndex  = ReadInt("Enter task number to mark as completed: ") - 1;
 
-                            if (index < 0 || index >= allTasks.Count)
+                            if (editIndex < 0 || editIndex >= allTasks.Count)
                             {
                                 Console.WriteLine("Invalid task number.");
                                 Console.ReadKey();
                                 continue;
                             }
 
-                            var task = allTasks[index];
+                            var task = allTasks[editIndex];
 
                             if (task.IsCompleted)
                             {
@@ -765,4 +767,43 @@ class Program
         string? input = Console.ReadLine();
         return input?.Trim() ?? "";
     }
+    // OPTIONAL INPUT HELPERS
+static string ReadOptional(string message)
+{
+    Console.Write(message);
+    return Console.ReadLine() ?? "";
+}
+
+static DateTime ReadOptionalDate(string message, DateTime currentValue)
+{
+    Console.Write(message);
+    string input = Console.ReadLine() ?? "";
+
+    if (string.IsNullOrWhiteSpace(input))
+        return currentValue;
+
+    if (DateTime.TryParse(input, out DateTime result))
+        return result;
+
+    Console.WriteLine("Invalid date. Keeping old value.");
+    return currentValue;
+}
+
+static string ReadOptionalPriority(string message, string currentValue)
+{
+    Console.Write(message);
+    string input = Console.ReadLine() ?? "";
+
+    if (string.IsNullOrWhiteSpace(input))
+        return currentValue;
+
+    input = input.Trim().ToLower();
+
+    if (input == "low" || input == "medium" || input == "high")
+        return input;
+
+    Console.WriteLine("Invalid priority. Keeping old value.");
+    return currentValue;
+}
+
 }
