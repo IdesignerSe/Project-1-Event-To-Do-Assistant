@@ -511,10 +511,47 @@ class Program
                     break;
 
                 case "6":
-                    taskManager.SortByDate();
-                    Console.WriteLine("Sorted by date!");
-                    Console.ReadKey();
+                    while (true)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("=== SORT TASKS BY DATE ===");
+
+                        // Sort tasks by date
+                        var sortedTasks = taskManager.Tasks
+                            .OrderBy(t => t.DueDate)
+                            .ToList();
+
+                        Console.WriteLine("=== TASK LIST (Sorted by Date) ===");
+                        Console.WriteLine("Idx   Title                           Due Date");
+                        Console.WriteLine("------------------------------------------------------");
+
+                        if (sortedTasks.Count == 0)
+                        {
+                            Console.WriteLine("No tasks yet.");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < sortedTasks.Count; i++)
+                            {
+                                Console.WriteLine($"{i + 1,-5} {sortedTasks[i].Title,-30} {sortedTasks[i].DueDate:yyyy-MM-dd}");
+                            }
+                        }
+
+                        Console.WriteLine("────────────────────────────────────────");
+                        Console.WriteLine();
+                        Console.WriteLine("0. Back to Main Menu");
+                        Console.WriteLine("-----------------------------");
+
+                        string subChoice6 = ReadNonEmpty("Choose an option: ");
+
+                        if (subChoice6 == "0")
+                            break;
+
+                        Console.WriteLine("Invalid option.");
+                        Console.ReadKey();
+                    }
                     break;
+
 
                 case "7":
                     taskManager.SortByProject();
