@@ -4,6 +4,7 @@ namespace EventTodoAssistant.UI
     {
         public void ShowMainMenu()
         {
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
 
             Console.WriteLine("========================================");
@@ -155,7 +156,8 @@ namespace EventTodoAssistant.UI
             Console.WriteLine();
             Console.WriteLine("========================================");
             Console.WriteLine("========================================");
-            Console.WriteLine("========= WRITE AN OPTION ==============");
+            Console.WriteLine("== GO UP TO SEE 17 OPTIONS/FUNCTIONS ===");
+            Console.WriteLine("====== THEN WRITE AN NUMBER OPTION =====");
             Console.WriteLine("========================================");
             Console.WriteLine("========================================");
             Console.WriteLine();

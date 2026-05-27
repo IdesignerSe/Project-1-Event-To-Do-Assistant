@@ -34,6 +34,10 @@ class Program
             {
                 case "0":
                     Console.Clear();
+                    Console.WriteLine();
+                    Console.WriteLine("────────────────────────────────────────");
+                    Console.WriteLine();
+
                     Console.WriteLine("=== DASHBOARD SUMMARY ===");
                     Console.WriteLine("-------------------------\n");
                     Console.WriteLine($"Current Date: {DateTime.Now:yyyy-MM-dd}\n");
@@ -62,6 +66,10 @@ class Program
 
                 case "1":
                     Console.Clear();
+                    Console.WriteLine();
+                    Console.WriteLine("────────────────────────────────────────");
+                    Console.WriteLine();
+
                     Console.WriteLine("=== TASK LIST ===");
 
                     Console.WriteLine(
@@ -103,6 +111,12 @@ class Program
                         Console.ResetColor();
                     }
 
+                    Console.WriteLine();
+                    Console.WriteLine("────────────────────────────────────────");
+                    Console.WriteLine();
+                    Console.WriteLine("\nPress any key to return to Main Menu...");
+
+
                     Console.ReadKey();
                     break;
 
@@ -129,7 +143,12 @@ class Program
                         IsCompleted = false
                     });
 
+                    Console.WriteLine();
                     Console.WriteLine("Task added!");
+                    Console.WriteLine();
+                    Console.WriteLine("────────────────────────────────────────");
+                    Console.WriteLine();
+                    Console.WriteLine("\nPress any key to return to Main Menu...");
                     Console.ReadKey();
                     break;
 

@@ -85,12 +85,12 @@ EventTodoAssistant/
 │   ├── AISuggestionService.cs
 │   ├── AISuggestionServiceAdapter.cs
 │   ├── IAIService.cs
+│   ├── DisplayService.cs (future)
 │   ├── CloudAIService.cs        (future)
 │   ├── LocalAIService.cs        (future)
 │
 ├── UI/
 │   ├── MenuUI.cs
-│   ├── DisplayService.cs (future)
 │
 ├── tasks.json
 └── Program.cs
