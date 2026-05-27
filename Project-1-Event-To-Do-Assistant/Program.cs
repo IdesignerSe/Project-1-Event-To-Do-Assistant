@@ -121,23 +121,66 @@ class Program
 
                     Console.ReadKey();
                     break;
+
                 case "2":
                     while (true)
                     {
                         Console.Clear();
                         Console.WriteLine("=== ADD TASK ===");
-                        Console.WriteLine("1. Create a new task");
+
+                        // Show existing tasks in a clean table
+                        var allTasks = taskManager.Tasks;
+
+                        Console.WriteLine("=== TASK LIST ===");
+                        Console.WriteLine("Idx   Title");
+                        Console.WriteLine("-------------------------------");
+
+                        if (allTasks.Count == 0)
+                        {
+                            Console.WriteLine("No tasks yet.");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < allTasks.Count; i++)
+                            {
+                                Console.WriteLine($"{i + 1,-5} {allTasks[i].Title}");
+                            }
+                        }
+
+                        Console.WriteLine("────────────────────────────────────────");
+                        Console.WriteLine();
+                        Console.WriteLine("1. Add a new task");
                         Console.WriteLine("0. Back to Main Menu");
                         Console.WriteLine("-----------------------------");
 
-                        string SubChoice = ReadNonEmpty("Choose an option: ");
+                        string subChoice2 = ReadNonEmpty("Choose an option: ");
 
-                        if (SubChoice == "0")
+                        if (subChoice2 == "0")
                             break;
 
-                        if (SubChoice == "1")
+                        if (subChoice2 == "1")
                         {
                             Console.Clear();
+
+                            // Show task list again before adding
+                            Console.WriteLine("=== TASK LIST ===");
+                            Console.WriteLine("Idx   Title");
+                            Console.WriteLine("-------------------------------");
+
+                            if (allTasks.Count == 0)
+                            {
+                                Console.WriteLine("No tasks yet.");
+                            }
+                            else
+                            {
+                                for (int i = 0; i < allTasks.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1,-5} {allTasks[i].Title}");
+                                }
+                            }
+
+                            Console.WriteLine("────────────────────────────────────────");
+                            Console.WriteLine();
                             Console.WriteLine("=== NEW TASK ===");
 
                             string title = ReadNonEmpty("Task title: ");
@@ -163,8 +206,6 @@ class Program
 
                             Console.WriteLine();
                             Console.WriteLine("Task added!");
-                            Console.WriteLine();
-                            Console.WriteLine("────────────────────────────────────────");
                             Console.WriteLine("\nPress any key to return...");
                             Console.ReadKey();
                         }
@@ -181,7 +222,29 @@ class Program
                     {
                         Console.Clear();
                         Console.WriteLine("=== EDIT TASK ===");
-                        Console.WriteLine("1. Select a task to edit");
+
+                        // Show existing tasks in a clean table
+                        var allTasks = taskManager.Tasks;
+
+                        Console.WriteLine("=== TASK LIST ===");
+                        Console.WriteLine("Idx   Title");
+                        Console.WriteLine("-------------------------------");
+
+                        if (allTasks.Count == 0)
+                        {
+                            Console.WriteLine("No tasks yet.");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < allTasks.Count; i++)
+                            {
+                                Console.WriteLine($"{i + 1,-5} {allTasks[i].Title}");
+                            }
+                        }
+
+                        Console.WriteLine("────────────────────────────────────────");
+                        Console.WriteLine();
+                        Console.WriteLine("1. Edit a task");
                         Console.WriteLine("0. Back to Main Menu");
                         Console.WriteLine("-----------------------------");
 
@@ -193,31 +256,32 @@ class Program
                         if (subChoice3 == "1")
                         {
                             Console.Clear();
-                            Console.WriteLine("=== SELECT TASK TO EDIT ===");
 
-                            var allTasks = taskManager.Tasks;
+                            // Show task list again before editing
+                            Console.WriteLine("=== TASK LIST ===");
+                            Console.WriteLine("Idx   Title");
+                            Console.WriteLine("-------------------------------");
 
                             if (allTasks.Count == 0)
                             {
-                                Console.WriteLine("No tasks available.");
-                                Console.WriteLine("\nPress any key to return...");
-                                Console.ReadKey();
-                                continue;
+                                Console.WriteLine("No tasks yet.");
                             }
-
-                            // Show numbered list of tasks
-                            for (int i = 0; i < allTasks.Count; i++)
+                            else
                             {
-                                var t = allTasks[i];
-                                Console.WriteLine($"{i + 1}. {t.Title} | {t.Project} | {t.DueDate:yyyy-MM-dd} | {t.Priority}");
+                                for (int i = 0; i < allTasks.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1,-5} {allTasks[i].Title}");
+                                }
                             }
 
+                            Console.WriteLine("────────────────────────────────────────");
                             Console.WriteLine();
+
                             int editIndex = ReadInt("Enter task number to edit: ") - 1;
 
                             if (editIndex < 0 || editIndex >= allTasks.Count)
                             {
-                                Console.WriteLine("Invalid task number.");
+                                Console.WriteLine("Invalid number. Try again.");
                                 Console.ReadKey();
                                 continue;
                             }
@@ -274,7 +338,30 @@ class Program
                     {
                         Console.Clear();
                         Console.WriteLine("=== MARK TASK AS COMPLETED ===");
-                        Console.WriteLine("1. Select a task to mark as completed");
+
+                        // Show existing tasks in a clean table
+                        var allTasks = taskManager.Tasks;
+
+                        Console.WriteLine("=== TASK LIST ===");
+                        Console.WriteLine("Idx   Status   Title");
+                        Console.WriteLine("------------------------------------------");
+
+                        if (allTasks.Count == 0)
+                        {
+                            Console.WriteLine("No tasks yet.");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < allTasks.Count; i++)
+                            {
+                                string status = allTasks[i].IsCompleted ? "[DONE]" : "[   ]";
+                                Console.WriteLine($"{i + 1,-5} {status,-8} {allTasks[i].Title}");
+                            }
+                        }
+
+                        Console.WriteLine("────────────────────────────────────────");
+                        Console.WriteLine();
+                        Console.WriteLine("1. Mark a task as completed");
                         Console.WriteLine("0. Back to Main Menu");
                         Console.WriteLine("-----------------------------");
 
@@ -286,41 +373,42 @@ class Program
                         if (subChoice4 == "1")
                         {
                             Console.Clear();
-                            Console.WriteLine("=== SELECT TASK TO MARK AS COMPLETED ===");
 
-                            var allTasks = taskManager.Tasks;
+                            // Show task list again before marking completed
+                            Console.WriteLine("=== TASK LIST ===");
+                            Console.WriteLine("Idx   Status   Title");
+                            Console.WriteLine("------------------------------------------");
 
                             if (allTasks.Count == 0)
                             {
-                                Console.WriteLine("No tasks available.");
-                                Console.WriteLine("\nPress any key to return...");
-                                Console.ReadKey();
-                                continue;
+                                Console.WriteLine("No tasks yet.");
                             }
-
-                            // Show numbered list of tasks
-                            for (int i = 0; i < allTasks.Count; i++)
+                            else
                             {
-                                var t = allTasks[i];
-                                string status = t.IsCompleted ? "[DONE]" : "[ ]";
-                                Console.WriteLine($"{i + 1}. {status} {t.Title} | {t.Project} | {t.DueDate:yyyy-MM-dd}");
+                                for (int i = 0; i < allTasks.Count; i++)
+                                {
+                                    string status = allTasks[i].IsCompleted ? "[DONE]" : "[   ]";
+                                    Console.WriteLine($"{i + 1,-5} {status,-8} {allTasks[i].Title}");
+                                }
                             }
 
+                            Console.WriteLine("────────────────────────────────────────");
                             Console.WriteLine();
-                            int editIndex = ReadInt("Enter task number to mark as completed: ") - 1;
 
-                            if (editIndex < 0 || editIndex >= allTasks.Count)
+                            int completeIndex = ReadInt("Enter task number to mark as completed: ") - 1;
+
+                            if (completeIndex < 0 || completeIndex >= allTasks.Count)
                             {
-                                Console.WriteLine("Invalid task number.");
+                                Console.WriteLine("Invalid number. Try again.");
                                 Console.ReadKey();
                                 continue;
                             }
 
-                            var task = allTasks[editIndex];
+                            var task = allTasks[completeIndex];
 
                             if (task.IsCompleted)
                             {
-                                Console.WriteLine("This task is already marked as completed.");
+                                Console.WriteLine("This task is already completed.");
                             }
                             else
                             {
@@ -339,13 +427,34 @@ class Program
                     }
                     break;
 
-
                 case "5":
                     while (true)
                     {
                         Console.Clear();
                         Console.WriteLine("=== REMOVE TASK ===");
-                        Console.WriteLine("1. Select a task to remove");
+
+                        // Show existing tasks in a clean table
+                        var allTasks = taskManager.Tasks;
+
+                        Console.WriteLine("=== TASK LIST ===");
+                        Console.WriteLine("Idx   Title");
+                        Console.WriteLine("-------------------------------");
+
+                        if (allTasks.Count == 0)
+                        {
+                            Console.WriteLine("No tasks yet.");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < allTasks.Count; i++)
+                            {
+                                Console.WriteLine($"{i + 1,-5} {allTasks[i].Title}");
+                            }
+                        }
+
+                        Console.WriteLine("────────────────────────────────────────");
+                        Console.WriteLine();
+                        Console.WriteLine("1. Remove a task");
                         Console.WriteLine("0. Back to Main Menu");
                         Console.WriteLine("-----------------------------");
 
@@ -357,27 +466,27 @@ class Program
                         if (subChoice5 == "1")
                         {
                             Console.Clear();
-                            Console.WriteLine("=== SELECT TASK TO REMOVE ===");
 
-                            var allTasks = taskManager.Tasks;
+                            // Show task list again before removing
+                            Console.WriteLine("=== TASK LIST ===");
+                            Console.WriteLine("Idx   Title");
+                            Console.WriteLine("-------------------------------");
 
                             if (allTasks.Count == 0)
                             {
-                                Console.WriteLine("No tasks available.");
-                                Console.WriteLine("\nPress any key to return...");
-                                Console.ReadKey();
-                                continue;
+                                Console.WriteLine("No tasks yet.");
                             }
-
-                            // Show numbered list of tasks
-                            for (int i = 0; i < allTasks.Count; i++)
+                            else
                             {
-                                var t = allTasks[i];
-                                string status = t.IsCompleted ? "[DONE]" : "[ ]";
-                                Console.WriteLine($"{i + 1}. {status} {t.Title} | {t.Project} | {t.DueDate:yyyy-MM-dd}");
+                                for (int i = 0; i < allTasks.Count; i++)
+                                {
+                                    Console.WriteLine($"{i + 1,-5} {allTasks[i].Title}");
+                                }
                             }
 
+                            Console.WriteLine("────────────────────────────────────────");
                             Console.WriteLine();
+
                             int deleteIndex = ReadInt("Enter task number to remove: ") - 1;
 
                             if (deleteIndex < 0 || deleteIndex >= allTasks.Count)
@@ -400,7 +509,6 @@ class Program
                         }
                     }
                     break;
-
 
                 case "6":
                     taskManager.SortByDate();
