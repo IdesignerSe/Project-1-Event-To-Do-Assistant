@@ -137,9 +137,10 @@ cd EventTodoAssistant
 
 3. Run the app at the temrinal of VS code.
 Be sure you are in the right folder. Then: 
-
+´cd Project-1-Event-To-Do-Assistant´
 ´dotnet build´
 ´dotnet run´
+
 
 📦 Requirements
 .NET 6 or later
