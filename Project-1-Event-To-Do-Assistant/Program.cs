@@ -307,7 +307,7 @@ class Program
                             }
 
                             Console.WriteLine();
-                            int editIndex  = ReadInt("Enter task number to mark as completed: ") - 1;
+                            int editIndex = ReadInt("Enter task number to mark as completed: ") - 1;
 
                             if (editIndex < 0 || editIndex >= allTasks.Count)
                             {
@@ -341,13 +341,66 @@ class Program
 
 
                 case "5":
-                    Console.Clear();
-                    int removeIndex = ReadInt("Enter task index to remove: ");
+                    while (true)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("=== REMOVE TASK ===");
+                        Console.WriteLine("1. Select a task to remove");
+                        Console.WriteLine("0. Back to Main Menu");
+                        Console.WriteLine("-----------------------------");
 
-                    taskManager.RemoveTask(removeIndex);
-                    Console.WriteLine("Task removed!");
-                    Console.ReadKey();
+                        string subChoice5 = ReadNonEmpty("Choose an option: ");
+
+                        if (subChoice5 == "0")
+                            break;
+
+                        if (subChoice5 == "1")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("=== SELECT TASK TO REMOVE ===");
+
+                            var allTasks = taskManager.Tasks;
+
+                            if (allTasks.Count == 0)
+                            {
+                                Console.WriteLine("No tasks available.");
+                                Console.WriteLine("\nPress any key to return...");
+                                Console.ReadKey();
+                                continue;
+                            }
+
+                            // Show numbered list of tasks
+                            for (int i = 0; i < allTasks.Count; i++)
+                            {
+                                var t = allTasks[i];
+                                string status = t.IsCompleted ? "[DONE]" : "[ ]";
+                                Console.WriteLine($"{i + 1}. {status} {t.Title} | {t.Project} | {t.DueDate:yyyy-MM-dd}");
+                            }
+
+                            Console.WriteLine();
+                            int deleteIndex = ReadInt("Enter task number to remove: ") - 1;
+
+                            if (deleteIndex < 0 || deleteIndex >= allTasks.Count)
+                            {
+                                Console.WriteLine("Invalid number. Try again.");
+                                Console.ReadKey();
+                                continue;
+                            }
+
+                            taskManager.Tasks.RemoveAt(deleteIndex);
+
+                            Console.WriteLine("Task removed!");
+                            Console.WriteLine("\nPress any key to return...");
+                            Console.ReadKey();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid option.");
+                            Console.ReadKey();
+                        }
+                    }
                     break;
+
 
                 case "6":
                     taskManager.SortByDate();
@@ -768,42 +821,42 @@ class Program
         return input?.Trim() ?? "";
     }
     // OPTIONAL INPUT HELPERS
-static string ReadOptional(string message)
-{
-    Console.Write(message);
-    return Console.ReadLine() ?? "";
-}
+    static string ReadOptional(string message)
+    {
+        Console.Write(message);
+        return Console.ReadLine() ?? "";
+    }
 
-static DateTime ReadOptionalDate(string message, DateTime currentValue)
-{
-    Console.Write(message);
-    string input = Console.ReadLine() ?? "";
+    static DateTime ReadOptionalDate(string message, DateTime currentValue)
+    {
+        Console.Write(message);
+        string input = Console.ReadLine() ?? "";
 
-    if (string.IsNullOrWhiteSpace(input))
+        if (string.IsNullOrWhiteSpace(input))
+            return currentValue;
+
+        if (DateTime.TryParse(input, out DateTime result))
+            return result;
+
+        Console.WriteLine("Invalid date. Keeping old value.");
         return currentValue;
+    }
 
-    if (DateTime.TryParse(input, out DateTime result))
-        return result;
+    static string ReadOptionalPriority(string message, string currentValue)
+    {
+        Console.Write(message);
+        string input = Console.ReadLine() ?? "";
 
-    Console.WriteLine("Invalid date. Keeping old value.");
-    return currentValue;
-}
+        if (string.IsNullOrWhiteSpace(input))
+            return currentValue;
 
-static string ReadOptionalPriority(string message, string currentValue)
-{
-    Console.Write(message);
-    string input = Console.ReadLine() ?? "";
+        input = input.Trim().ToLower();
 
-    if (string.IsNullOrWhiteSpace(input))
+        if (input == "low" || input == "medium" || input == "high")
+            return input;
+
+        Console.WriteLine("Invalid priority. Keeping old value.");
         return currentValue;
-
-    input = input.Trim().ToLower();
-
-    if (input == "low" || input == "medium" || input == "high")
-        return input;
-
-    Console.WriteLine("Invalid priority. Keeping old value.");
-    return currentValue;
-}
+    }
 
 }
