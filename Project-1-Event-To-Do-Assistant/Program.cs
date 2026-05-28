@@ -710,75 +710,220 @@ class Program
                     }
 
                     break;
-
                 case "10":
-                    Console.Clear();
-                    Console.WriteLine("=== SEARCH & FILTER ===");
-                    Console.WriteLine("1. Search by Project");
-                    Console.WriteLine("2. Filter by Date");
-                    Console.WriteLine("3. Filter by Status");
-                    Console.WriteLine("4. Search by Tag");
-                    Console.WriteLine("5. Back to Main Menu");
-
-                    string sfaiChoice = ReadNonEmpty("Choose an option: ");
-
-                    if (sfaiChoice == "1")
+                    while (true)
                     {
-                        string projectName = ReadNonEmpty("Enter project name: ");
-                        var results = taskManager.SearchByProject(projectName);
+                        Console.Clear();
+                        Console.WriteLine("=== SEARCH & FILTER ===");
+                        Console.WriteLine("1. Search by Project");
+                        Console.WriteLine("2. Filter by Date");
+                        Console.WriteLine("3. Filter by Status");
+                        Console.WriteLine("4. Search by Tag");
+                        Console.WriteLine("5. Back to Main Menu");
 
-                        Console.WriteLine("=== RESULTS ===");
-                        foreach (var t in results)
-                            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
+                        string sfChoice = ReadNonEmpty("Choose an option: ");
 
-                        Console.ReadKey();
+                        if (sfChoice == "5")
+                            break;
+
+                        // ---------------------------------------------------------
+                        // ALWAYS SHOW FULL TASK LIST FIRST
+                        // ---------------------------------------------------------
+                        Console.Clear();
+                        Console.WriteLine("=== TASK LIST ===");
+                        Console.WriteLine("Idx   Status     Priority     Project                           Title");
+                        Console.WriteLine("---------------------------------------------------------------------------------------");
+
+                        var allTasks = taskManager.Tasks;
+
+                        if (allTasks.Count == 0)
+                        {
+                            Console.WriteLine("No tasks yet.");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < allTasks.Count; i++)
+                            {
+                                string status = allTasks[i].IsCompleted ? "[DONE]" : "[   ]";
+
+                                Console.WriteLine(
+                                    $"{i + 1,-5}" +
+                                    $"{status,-10}" +
+                                    $"{allTasks[i].Priority,-12}" +
+                                    $"{allTasks[i].Project,-35}" +
+                                    $"{allTasks[i].Title}"
+                                );
+                            }
+                        }
+
+                        Console.WriteLine("────────────────────────────────────────");
+                        Console.WriteLine();
+
+                        // ---------------------------------------------------------
+                        // OPTION 1 — SEARCH BY PROJECT
+                        // ---------------------------------------------------------
+                        if (sfChoice == "1")
+                        {
+                            string projectName = ReadNonEmpty("Enter project name: ");
+
+                            var results = taskManager.Tasks
+                                .Where(t => t.Project.Contains(projectName, StringComparison.OrdinalIgnoreCase))
+                                .ToList();
+
+                            Console.Clear();
+                            Console.WriteLine($"=== RESULTS FOR PROJECT: {projectName} ===");
+                            Console.WriteLine("Idx   Status     Priority     Project                           Title");
+                            Console.WriteLine("---------------------------------------------------------------------------------------");
+
+                            if (results.Count == 0)
+                            {
+                                Console.WriteLine("No matching tasks found.");
+                            }
+                            else
+                            {
+                                for (int i = 0; i < results.Count; i++)
+                                {
+                                    string status = results[i].IsCompleted ? "[DONE]" : "[   ]";
+
+                                    Console.WriteLine(
+                                        $"{i + 1,-5}" +
+                                        $"{status,-10}" +
+                                        $"{results[i].Priority,-12}" +
+                                        $"{results[i].Project,-35}" +
+                                        $"{results[i].Title}"
+                                    );
+                                }
+                            }
+                        }
+
+                        // ---------------------------------------------------------
+                        // OPTION 2 — FILTER BY DATE
+                        // ---------------------------------------------------------
+                        else if (sfChoice == "2")
+                        {
+                            DateTime filterDate = ReadDate("Enter date (yyyy-mm-dd): ");
+                            Console.Write("Filter (before/after/on): ");
+                            string mode = Console.ReadLine() ?? "on";
+
+                            var results = taskManager.FilterByDate(filterDate, mode);
+
+                            Console.Clear();
+                            Console.WriteLine($"=== RESULTS FOR DATE FILTER ({mode}) ===");
+                            Console.WriteLine("Idx   Status     Priority     Project                           Title");
+                            Console.WriteLine("---------------------------------------------------------------------------------------");
+
+                            if (results.Count == 0)
+                            {
+                                Console.WriteLine("No matching tasks found.");
+                            }
+                            else
+                            {
+                                for (int i = 0; i < results.Count; i++)
+                                {
+                                    string status = results[i].IsCompleted ? "[DONE]" : "[   ]";
+
+                                    Console.WriteLine(
+                                        $"{i + 1,-5}" +
+                                        $"{status,-10}" +
+                                        $"{results[i].Priority,-12}" +
+                                        $"{results[i].Project,-35}" +
+                                        $"{results[i].Title}"
+                                    );
+                                }
+                            }
+                        }
+
+                        // ---------------------------------------------------------
+                        // OPTION 3 — FILTER BY STATUS
+                        // ---------------------------------------------------------
+                        else if (sfChoice == "3")
+                        {
+                            Console.Write("Show completed? (yes/no): ");
+                            string ans = Console.ReadLine()?.ToLower() ?? "no";
+                            bool completed = ans == "yes";
+
+                            var results = taskManager.FilterByStatus(completed);
+
+                            Console.Clear();
+                            Console.WriteLine($"=== RESULTS FOR STATUS: {(completed ? "Completed" : "Pending")} ===");
+                            Console.WriteLine("Idx   Status     Priority     Project                           Title");
+                            Console.WriteLine("---------------------------------------------------------------------------------------");
+
+                            if (results.Count == 0)
+                            {
+                                Console.WriteLine("No matching tasks found.");
+                            }
+                            else
+                            {
+                                for (int i = 0; i < results.Count; i++)
+                                {
+                                    string status = results[i].IsCompleted ? "[DONE]" : "[   ]";
+
+                                    Console.WriteLine(
+                                        $"{i + 1,-5}" +
+                                        $"{status,-10}" +
+                                        $"{results[i].Priority,-12}" +
+                                        $"{results[i].Project,-35}" +
+                                        $"{results[i].Title}"
+                                    );
+                                }
+                            }
+                        }
+
+                        // ---------------------------------------------------------
+                        // OPTION 4 — SEARCH BY TAG
+                        // ---------------------------------------------------------
+                        else if (sfChoice == "4")
+                        {
+                            string tagSearch = ReadNonEmpty("Enter tag to search: ");
+
+                            var results = taskManager.Tasks
+                                .Where(t => t.Tags.Any(tag =>
+                                    tag.Contains(tagSearch, StringComparison.OrdinalIgnoreCase)))
+                                .ToList();
+
+                            Console.Clear();
+                            Console.WriteLine($"=== RESULTS FOR TAG: {tagSearch} ===");
+                            Console.WriteLine("Idx   Status     Priority     Project                           Title");
+                            Console.WriteLine("---------------------------------------------------------------------------------------");
+
+                            if (results.Count == 0)
+                            {
+                                Console.WriteLine("No matching tasks found.");
+                            }
+                            else
+                            {
+                                for (int i = 0; i < results.Count; i++)
+                                {
+                                    string status = results[i].IsCompleted ? "[DONE]" : "[   ]";
+
+                                    Console.WriteLine(
+                                        $"{i + 1,-5}" +
+                                        $"{status,-10}" +
+                                        $"{results[i].Priority,-12}" +
+                                        $"{results[i].Project,-35}" +
+                                        $"{results[i].Title}"
+                                    );
+                                }
+                            }
+                        }
+
+                        // ---------------------------------------------------------
+                        // NAVIGATION OPTIONS AFTER RESULTS
+                        // ---------------------------------------------------------
+                        Console.WriteLine("────────────────────────────────────────");
+                        Console.WriteLine("0. Back to Search & Filter Menu");
+                        Console.WriteLine("1. Back to Main Menu");
+
+                        string nav = ReadNonEmpty("Choose an option: ");
+
+                        if (nav == "1")
+                            break;
+                        else
+                            continue;
                     }
-                    else if (sfaiChoice == "2")   // ⭐ FIXED HERE
-                    {
-                        DateTime filterDate = ReadDate("Enter date (yyyy-mm-dd): ");
-                        Console.Write("Filter (before/after/on): ");
-                        string mode = Console.ReadLine() ?? "on";
-
-                        var results = taskManager.FilterByDate(filterDate, mode);
-
-                        Console.WriteLine("=== RESULTS ===");
-                        foreach (var t in results)
-                            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
-
-                        Console.ReadKey();
-                    }
-                    else if (sfaiChoice == "3")
-                    {
-                        Console.Write("Show completed? (yes/no): ");
-                        string ans = Console.ReadLine()?.ToLower() ?? "no";
-
-                        bool completed = ans == "yes";
-
-                        var results = taskManager.FilterByStatus(completed);
-
-                        Console.WriteLine("=== RESULTS ===");
-                        foreach (var t in results)
-                            Console.WriteLine($"{t.Title} - {t.Project} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
-
-                        Console.ReadKey();
-                    }
-                    else if (sfaiChoice == "4")
-                    {
-                        string tagSearch = ReadNonEmpty("Enter tag to search: ");
-
-                        var results = taskManager.Tasks
-                            .Where(t => t.Tags.Any(tag =>
-                                tag.Contains(tagSearch, StringComparison.OrdinalIgnoreCase)))
-                            .ToList();
-
-                        Console.WriteLine("=== RESULTS ===");
-                        foreach (var t in results)
-                            Console.WriteLine($"{t.Title} - {string.Join(", ", t.Tags)} - {t.DueDate:yyyy-MM-dd} - {t.Priority}");
-
-                        Console.ReadKey();
-                    }
-
                     break;
+
 
                 case "11":
                     while (true)
@@ -883,11 +1028,54 @@ class Program
                     break;
 
                 case "14":
-                    taskManager.SortByCategory();
-                    Console.WriteLine("Tasks sorted by category!");
-                    Console.ReadKey();
-                    Console.Clear();
-                    goto case "1";
+                    while (true)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("=== SORT TASKS BY STATUS ===");
+
+                        // Sort tasks: Pending first, Done last
+                        var sortedTasks = taskManager.Tasks
+                            .OrderBy(t => t.IsCompleted) // false (pending) first, true (done) last
+                            .ToList();
+
+                        Console.WriteLine("=== TASK LIST (Sorted by Status) ===");
+                        Console.WriteLine("Idx  Status    Priority     Project                           Title");
+                        Console.WriteLine("---------------------------------------------------------------------------------------");
+
+                        if (sortedTasks.Count == 0)
+                        {
+                            Console.WriteLine("No tasks yet.");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < sortedTasks.Count; i++)
+                            {
+                                string status = sortedTasks[i].IsCompleted ? "[DONE]" : "[   ]";
+
+                                Console.WriteLine(
+                                    $"{i + 1,-5}" +
+                                    $"{status,-10}" +
+                                    $"{sortedTasks[i].Priority,-12}" +
+                                    $"{sortedTasks[i].Project,-35}" +
+                                    $"{sortedTasks[i].Title}"
+                                );
+                            }
+                        }
+
+                        Console.WriteLine("────────────────────────────────────────");
+                        Console.WriteLine();
+                        Console.WriteLine("0. Back to Main Menu");
+                        Console.WriteLine("-----------------------------");
+
+                        string subChoice14 = ReadNonEmpty("Choose an option: ");
+
+                        if (subChoice14 == "0")
+                            break;
+
+                        Console.WriteLine("Invalid option.");
+                        Console.ReadKey();
+                    }
+                    break;
 
                 default:
                     Console.WriteLine("Invalid choice.");
