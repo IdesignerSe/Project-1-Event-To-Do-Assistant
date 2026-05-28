@@ -1,3 +1,4 @@
+//TODO: Later add history log to Json file and load it on startup, also add option to view history in the menu. 
 using EventTodoAssistant.Models;
 using System.Text.Json;
 
@@ -12,12 +13,17 @@ namespace EventTodoAssistant.Services
         public void AddTask(TaskItem task)
         {
             Tasks.Add(task);
+            LogHistory($"Created task \"{task.Title}\" with due date {task.DueDate:yyyy-MM-dd}");
         }
 
         public void RemoveTask(int index)
         {
             if (index >= 0 && index < Tasks.Count)
+            {
+                var task = Tasks[index];
                 Tasks.RemoveAt(index);
+                LogHistory($"Removed task \"{task.Title}\" with due date {task.DueDate:yyyy-MM-dd}");
+            }
         }
 
         public TaskItem? GetTask(int index)
@@ -173,11 +179,11 @@ namespace EventTodoAssistant.Services
                 .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
 
-        private readonly string historyFile = "task_history.txt";
+        private readonly string historyPath = "task_history.txt";
 
-        private void LogHistory(string message)
+        public void LogHistory(string message)
         {
-            File.AppendAllText(historyFile, $"[{DateTime.Now:yyyy-MM-dd HH:mm}] {message}\n");
+            File.AppendAllText(historyPath, $"[{DateTime.Now:yyyy-MM-dd HH:mm}] {message}\n");
         }
 
 
