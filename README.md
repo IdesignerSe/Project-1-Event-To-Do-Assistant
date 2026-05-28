@@ -118,7 +118,7 @@ Mistral
 🔹 3. Local AI (planned)
 Planned support for:
 
-Ollama (http://localhost:11434/api/generate)
+Ollama 
 
 LM Studio
 
@@ -130,7 +130,7 @@ The IAIService interface allows switching AI providers with one line of code.
 
 🛠️ How to Run
 1. Clone the repository
-git clone https://github.com/<your-username>/<your-repo>.git
+git clone repository
 
 2. Navigate into the project
 cd EventTodoAssistant
@@ -151,6 +151,7 @@ Windows / macOS / Linux
 
 (Optional) API key for cloud AI
 
+
 🌱 Future Enhancements
 AI‑generated event timelines
 
@@ -167,5 +168,6 @@ Color‑coded console UI
 Combined filters (project + date + status)
 
 Statistics dashboard
+
 
 Thanks for Stopping by !
