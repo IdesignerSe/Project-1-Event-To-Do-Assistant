@@ -710,6 +710,7 @@ class Program
                     }
 
                     break;
+
                 case "10":
                     while (true)
                     {
@@ -924,7 +925,6 @@ class Program
                     }
                     break;
 
-
                 case "11":
                     while (true)
                     {
@@ -1083,26 +1083,59 @@ class Program
                     break;
 
                 case "15":
-                    Console.Clear();
-                    Console.WriteLine("=== TAG STATISTICS ===\n");
-
-                    var stats = taskManager.GetTagStatistics();
-
-                    if (stats.Count == 0)
+                    while (true)
                     {
-                        Console.WriteLine("No tags found.");
-                        Console.ReadKey();
-                        break;
-                    }
+                        Console.Clear();
+                        Console.WriteLine("=== TAG STATISTICS ===");
+                        Console.WriteLine();
 
-                    foreach (var kvp in stats)
-                    {
-                        Console.WriteLine($"{kvp.Key}: {kvp.Value} task(s)");
-                    }
+                        // Build tag dictionary
+                        var tagCounts = new Dictionary<string, int>();
 
-                    Console.WriteLine("\nPress any key to return to Main Menu...");
-                    Console.ReadKey();
+                        foreach (var task in taskManager.Tasks)
+                        {
+                            foreach (var tag in task.Tags)
+                            {
+                                if (!tagCounts.ContainsKey(tag))
+                                    tagCounts[tag] = 0;
+
+                                tagCounts[tag]++;
+                            }
+                        }
+
+                        // Sort alphabetically
+                        var sortedTags = tagCounts.OrderBy(t => t.Key).ToList();
+
+                        // Header
+                        Console.WriteLine("Tag                            Count");
+                        Console.WriteLine("----------------------------------------------");
+
+                        if (sortedTags.Count == 0)
+                        {
+                            Console.WriteLine("No tags found.");
+                        }
+                        else
+                        {
+                            foreach (var entry in sortedTags)
+                            {
+                                Console.WriteLine($"{entry.Key,-30} {entry.Value} task(s)");
+                            }
+                        }
+
+                        Console.WriteLine("────────────────────────────────────────");
+                        Console.WriteLine();
+                        Console.WriteLine("1. Back to Main Menu");
+                        Console.WriteLine("-----------------------------");
+
+                        string nav = ReadNonEmpty("Choose an option: ");
+
+                        if (nav == "1")
+                            break;
+                        else
+                            continue;
+                    }
                     break;
+
 
                 case "16":
                     Console.Clear();
