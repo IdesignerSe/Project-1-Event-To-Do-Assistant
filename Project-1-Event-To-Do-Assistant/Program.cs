@@ -609,24 +609,24 @@ class Program
                     break;
 
                 case "9":
-                    Console.Clear();
-                    Console.WriteLine("=== AI EVENT SUGGESTIONS ===\n");
+                Console.Clear();
+        Console.WriteLine("=== AI EVENT SUGGESTIONS ===\n");
 
-                    Console.WriteLine("1. Enter an event name");
-                    Console.WriteLine("2. Back to Main Menu");
-                    Console.WriteLine("-----------------------------");
+        Console.WriteLine("1. Enter an event name");
+        Console.WriteLine("2. Back to Main Menu");
+        Console.WriteLine("-----------------------------");
 
-                    string firstChoice = ReadNonEmpty("Choose an option: ");
+        string firstChoice = ReadNonEmpty("Choose an option: ");
 
-                    if (firstChoice == "2")
-                        break;
+        if (firstChoice == "2")
+            break;
 
-                    if (firstChoice != "1")
-                    {
-                        Console.WriteLine("Invalid option.");
-                        Console.ReadKey();
-                        continue;
-                    }
+        if (firstChoice != "1")
+        {
+            Console.WriteLine("Invalid option.");
+            Console.ReadKey();
+            continue;
+        }
                     Console.Clear();
                     Console.WriteLine("=== AI EVENT SUGGESTIONS ===\n");
 

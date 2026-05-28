@@ -1,8 +1,9 @@
 Title,DueDate,Project,Priority,Tags,Description,IsCompleted,IsOverdue
 Become Superman ,2026-05-22,Transform Krytonite into magnesium,Low,"","",False,True
-Wine testing: Barolo,2026-05-27,Wine Testing: Barolo,Low,"Hobbies","Tracking my wine testing",False,False
 Being Spiderman for a day,2026-05-22,Quantic Worlds,Medium,"","",True,False
-Mid-Sommar Celebration!,2026-06-22,Plannig Mid-Sommar day,Medium,"Hollidays","Deconstruct the whole day to divide task to everybody.",False,False
+Wine testing: Barolo,2026-05-27,Wine Testing: Barolo,Low,"Hobbies","Tracking my wine testing",False,True
 Make a fuit salad,2026-05-28,Eat healthy,High,"Health","Lets make a new habbit.",False,False
 Finish on time this project,2026-05-29,Code until death,High,"","Finish ToDoList move quickly to Smart Assistent",False,False
 Cleaning the house,2026-05-30,Big cleaning before party,High,"Shores","Divide shores to all in the family.",False,False
+Mid-Sommar Celebration!,2026-06-22,Plannig Mid-Sommar day,Medium,"Hollidays","Deconstruct the whole day to divide task to everybody.",False,False
+Plan food for Enjoy 22 celcius Sunday,2026-05-31,Enjoy 22 celcius Sunday,Medium,"AI;Suggestion","AI-generated suggestion for event: Enjoy 22 celcius Sunday",False,False
