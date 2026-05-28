@@ -553,18 +553,60 @@ class Program
                     }
                     break;
 
-
                 case "7":
-                    taskManager.SortByProject();
-                    Console.WriteLine("Sorted by project!");
-                    Console.ReadKey();
+                    while (true)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("=== SORT TASKS BY PROJECT ===");
+
+                        // Sort tasks by project name
+                        var sortedTasks = taskManager.Tasks
+                            .OrderBy(t => t.Project)
+                            .ToList();
+
+                        Console.WriteLine("=== TASK LIST (Sorted by Project) ===");
+                        Console.WriteLine("Idx   Project                           Priority    Status         Title");
+                        Console.WriteLine("---------------------------------------------------------------------------------------");
+
+                        if (sortedTasks.Count == 0)
+                        {
+                            Console.WriteLine("No tasks yet.");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < sortedTasks.Count; i++)
+                            {
+                                string status = sortedTasks[i].IsCompleted ? "[DONE]" : "[   ]";
+
+                                Console.WriteLine(
+                                    $"{i + 1,-5}" +
+                                    $"{sortedTasks[i].Project,-35}" +
+                                    $"{sortedTasks[i].Priority,-12}" +
+                                    $"{status,-10}" +
+                                    $"{sortedTasks[i].Title}"
+                                );
+                            }
+                        }
+
+                        Console.WriteLine("────────────────────────────────────────");
+                        Console.WriteLine();
+                        Console.WriteLine("0. Back to Main Menu");
+                        Console.WriteLine("-----------------------------");
+
+                        string subChoice7 = ReadNonEmpty("Choose an option: ");
+
+                        if (subChoice7 == "0")
+                            break;
+
+                        Console.WriteLine("Invalid option.");
+                        Console.ReadKey();
+                    }
                     break;
 
                 case "8":
                     taskManager.SaveToJson(filePath);
                     running = false;
                     break;
-
 
                 case "9":
                     Console.Clear();
@@ -738,11 +780,54 @@ class Program
 
                     break;
 
-
                 case "11":
-                    taskManager.SortByPriority();
-                    Console.WriteLine("Tasks sorted by priority!");
-                    Console.ReadKey();
+                    while (true)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("=== SORT TASKS BY PRIORITY ===");
+
+                        // Sort tasks by priority (High → Medium → Low)
+                        var sortedTasks = taskManager.Tasks
+                            .OrderBy(t => t.Priority) // If you want custom order, tell me
+                            .ToList();
+
+                        Console.WriteLine("=== TASK LIST (Sorted by Priority) ===");
+                        Console.WriteLine("Idx   Priority     Project                           Status     Title");
+                        Console.WriteLine("---------------------------------------------------------------------------------------");
+
+                        if (sortedTasks.Count == 0)
+                        {
+                            Console.WriteLine("No tasks yet.");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < sortedTasks.Count; i++)
+                            {
+                                string status = sortedTasks[i].IsCompleted ? "[DONE]" : "[   ]";
+
+                                Console.WriteLine(
+                                    $"{i + 1,-5}" +
+                                    $"{sortedTasks[i].Priority,-12}" +
+                                    $"{sortedTasks[i].Project,-35}" +
+                                    $"{status,-10}" +
+                                    $"{sortedTasks[i].Title}"
+                                );
+                            }
+                        }
+
+                        Console.WriteLine("────────────────────────────────────────");
+                        Console.WriteLine();
+                        Console.WriteLine("0. Back to Main Menu");
+                        Console.WriteLine("-----------------------------");
+
+                        string subChoice11 = ReadNonEmpty("Choose an option: ");
+
+                        if (subChoice11 == "0")
+                            break;
+
+                        Console.WriteLine("Invalid option.");
+                        Console.ReadKey();
+                    }
                     break;
 
                 case "12":
